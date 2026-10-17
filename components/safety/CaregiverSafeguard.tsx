@@ -39,7 +39,7 @@ export default function CaregiverSafeguard({ isOpen, onClose, onBroadcastAlert }
       <div className="bg-neutral-900 border border-neutral-700 max-w-lg w-full rounded-2xl p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-150">
         <div className="flex items-center justify-between pb-3 border-b border-neutral-800">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-400">
+            <div className="w-8 h-8 rounded-lg bg-neutral-800 border border-neutral-700 flex items-center justify-center text-white">
               <ShieldAlert className="w-4 h-4" />
             </div>
             <div>
@@ -61,14 +61,14 @@ export default function CaregiverSafeguard({ isOpen, onClose, onBroadcastAlert }
           {/* Action 1: Ergonomic Break */}
           <button
             onClick={() => handleTriggerAssist('break')}
-            className="w-full p-3.5 rounded-xl border border-neutral-800 bg-neutral-950 hover:border-amber-500/60 hover:bg-amber-950/20 text-left transition flex items-center justify-between group"
+            className="w-full p-3.5 rounded-xl border border-neutral-800 bg-neutral-950 hover:border-neutral-500 hover:bg-neutral-900 text-left transition flex items-center justify-between group"
           >
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
+              <div className="w-9 h-9 rounded-lg bg-neutral-800 border border-neutral-700 text-white flex items-center justify-center shrink-0">
                 <Coffee className="w-5 h-5" />
               </div>
               <div>
-                <p className="font-bold text-sm text-neutral-200 group-hover:text-amber-300">
+                <p className="font-bold text-sm text-neutral-200 group-hover:text-white">
                   Request 5-Minute Ergonomic Break
                 </p>
                 <p className="text-[11px] text-neutral-400">
@@ -81,14 +81,14 @@ export default function CaregiverSafeguard({ isOpen, onClose, onBroadcastAlert }
           {/* Action 2: Caregiver Notification */}
           <button
             onClick={() => handleTriggerAssist('caregiver')}
-            className="w-full p-3.5 rounded-xl border border-neutral-800 bg-neutral-950 hover:border-cyan-500/60 hover:bg-cyan-950/20 text-left transition flex items-center justify-between group"
+            className="w-full p-3.5 rounded-xl border border-neutral-800 bg-neutral-950 hover:border-neutral-500 hover:bg-neutral-900 text-left transition flex items-center justify-between group"
           >
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center shrink-0">
+              <div className="w-9 h-9 rounded-lg bg-neutral-800 border border-neutral-700 text-white flex items-center justify-center shrink-0">
                 <Bell className="w-5 h-5" />
               </div>
               <div>
-                <p className="font-bold text-sm text-neutral-200 group-hover:text-cyan-300">
+                <p className="font-bold text-sm text-neutral-200 group-hover:text-white">
                   Ping Caregiver / Physical Assistant
                 </p>
                 <p className="text-[11px] text-neutral-400">
@@ -101,14 +101,14 @@ export default function CaregiverSafeguard({ isOpen, onClose, onBroadcastAlert }
           {/* Action 3: Medical Emergency */}
           <button
             onClick={() => handleTriggerAssist('medical')}
-            className="w-full p-3.5 rounded-xl border border-red-500/40 bg-red-950/30 hover:bg-red-950/60 text-left transition flex items-center justify-between group"
+            className="w-full p-3.5 rounded-xl border border-white/60 bg-neutral-950 hover:bg-neutral-900 text-left transition flex items-center justify-between group"
           >
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-red-500/20 text-red-400 flex items-center justify-center shrink-0">
+              <div className="w-9 h-9 rounded-lg bg-white text-black flex items-center justify-center shrink-0">
                 <HeartPulse className="w-5 h-5" />
               </div>
               <div>
-                <p className="font-bold text-sm text-red-200">
+                <p className="font-bold text-sm text-white">
                   Emergency Medical Pause
                 </p>
                 <p className="text-[11px] text-neutral-400">
@@ -120,8 +120,8 @@ export default function CaregiverSafeguard({ isOpen, onClose, onBroadcastAlert }
         </div>
 
         {activeAlert && (
-          <div className="p-3 bg-neutral-950 border border-neutral-800 rounded-xl flex items-center gap-2 text-xs text-emerald-400 animate-in fade-in duration-150">
-            <CheckCircle2 className="w-4 h-4 shrink-0" />
+          <div className="p-3 bg-neutral-950 border border-neutral-800 rounded-xl flex items-center gap-2 text-xs text-white animate-in fade-in duration-150">
+            <CheckCircle2 className="w-4 h-4 shrink-0 text-white" />
             <span>
               {activeAlert === 'break' && 'Ergonomic break announced and logged to Slack.'}
               {activeAlert === 'caregiver' && 'Caregiver ping broadcasted successfully.'}
@@ -132,7 +132,7 @@ export default function CaregiverSafeguard({ isOpen, onClose, onBroadcastAlert }
 
         <button
           onClick={onClose}
-          className="w-full py-2.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-semibold text-xs transition"
+          className="w-full py-2.5 rounded-xl bg-white hover:bg-neutral-200 text-black font-bold text-xs transition"
         >
           Close Safety Window
         </button>

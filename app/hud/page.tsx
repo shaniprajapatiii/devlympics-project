@@ -68,7 +68,7 @@ export default function FloatingHUDPage() {
     setProfile(saved);
 
     if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
-      const channel = new BroadcastChannel('synapseflow_bus');
+      const channel = new BroadcastChannel('dialectica_bus');
       broadcastChannelRef.current = channel;
 
       channel.onmessage = (event) => {
@@ -210,17 +210,17 @@ export default function FloatingHUDPage() {
       <div className="flex items-center justify-between py-1.5 px-2 bg-neutral-900/80 rounded-xl border border-neutral-800 text-xs">
         <div className="flex items-center gap-2">
           <Link
-            href="/"
+            href="/dashboard"
             className="text-neutral-400 hover:text-white p-1 rounded hover:bg-neutral-800 transition"
             title="Return to Main Workspace"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
           </Link>
           <span className="font-bold text-white flex items-center gap-1.5">
-            <Zap className="w-3.5 h-3.5 text-cyan-400" /> SynapseFlow Floating HUD
+            <Zap className="w-3.5 h-3.5 fill-white text-white" /> Dialectica Floating HUD
           </span>
           {isSyncedWithCockpit && (
-            <span className="text-[9px] bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 px-1.5 py-0.2 rounded font-mono flex items-center gap-1">
+            <span className="text-[9px] bg-neutral-900 border border-neutral-700 text-white px-1.5 py-0.2 rounded font-mono flex items-center gap-1">
               <Radio className="w-2.5 h-2.5 animate-pulse" /> SYNCED
             </span>
           )}
@@ -231,8 +231,8 @@ export default function FloatingHUDPage() {
             onClick={() => setIsSimulatingMouse(!isSimulatingMouse)}
             className={`px-2 py-0.5 rounded text-[10px] font-mono border transition ${
               isSimulatingMouse
-                ? 'bg-purple-600/30 border-purple-500/50 text-purple-300'
-                : 'bg-neutral-800 border-neutral-700 text-neutral-400'
+                ? 'bg-white text-black border-white font-bold'
+                : 'bg-neutral-900 border-neutral-700 text-neutral-400 hover:text-white'
             }`}
           >
             {isSimulatingMouse ? 'CURSOR ON' : 'EYE GAZE'}

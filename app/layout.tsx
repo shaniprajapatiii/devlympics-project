@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
+import { AuthProvider } from '@/lib/auth/AuthContext';
+import BridgeChatbot from '@/components/chat/BridgeChatbot';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -13,9 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'SynapseFlow | Bi-Directional Assistive Collaboration Bridge',
+  title: 'Dialectica | Cognitive Voice & Gaze Interaction Platform',
   description:
-    'Zero-hardware eye-gaze and speech bridge connecting motor- and speech-impaired professionals with agile verbal teams.',
+    'Zero-hardware eye-gaze and generative speech bridge connecting motor- and speech-impaired professionals with agile engineering teams.',
 };
 
 export default function RootLayout({
@@ -28,8 +31,12 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col bg-neutral-950 text-neutral-100 font-sans selection:bg-cyan-500 selection:text-black">
-        {children}
+      <body className="min-h-full flex flex-col bg-black text-white font-sans selection:bg-white selection:text-black">
+        <Script src="https://accounts.google.com/gsi/client" strategy="afterInteractive" />
+        <AuthProvider>
+          {children}
+          <BridgeChatbot />
+        </AuthProvider>
       </body>
     </html>
   );

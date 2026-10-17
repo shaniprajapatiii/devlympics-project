@@ -31,21 +31,21 @@ const INITIAL_PEERS = [
   {
     name: 'Sarah Chen',
     role: 'Staff Architect',
-    avatar: 'bg-emerald-600',
+    avatar: 'bg-neutral-700',
     status: 'Speaking',
     isSpeaking: false,
   },
   {
     name: 'Marcus Vance',
     role: 'Senior Backend',
-    avatar: 'bg-blue-600',
+    avatar: 'bg-neutral-800 border border-neutral-700',
     status: 'Listening',
     isSpeaking: false,
   },
   {
     name: 'Priya Sharma',
     role: 'Product Lead',
-    avatar: 'bg-purple-600',
+    avatar: 'bg-neutral-600',
     status: 'Listening',
     isSpeaking: false,
   },
@@ -56,7 +56,7 @@ export default function MeetingRoom({
   userSpeakingText,
   isUserSpeaking,
   activeFloorUser,
-  userName = 'Alex Rivera',
+  userName = 'Alex Chen',
   userRole = 'Staff Distributed Systems Architect',
 }: Props) {
   const [messages, setMessages] = useState<MeetingTranscriptEntry[]>([
@@ -64,7 +64,7 @@ export default function MeetingRoom({
       id: 'm-1',
       speaker: 'Sarah Chen',
       role: 'Staff Architect',
-      avatarColor: 'bg-emerald-600',
+      avatarColor: 'bg-neutral-700',
       text: "Morning team! Let's kick off the sprint review. How are we looking on the auth middleware and rate limiting PR?",
       timestamp: '10:01 AM',
       isUser: false,
@@ -89,7 +89,7 @@ export default function MeetingRoom({
         id: `user-${Date.now()}`,
         speaker: `${userName} (You)`,
         role: userRole,
-        avatarColor: 'bg-cyan-600',
+        avatarColor: 'bg-white',
         text: userSpeakingText,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         isUser: true,
@@ -144,7 +144,7 @@ export default function MeetingRoom({
 
         for (let i = 0; i < bufferLength; i++) {
           const barHeight = (dataArray[i] / 255) * canvas.height;
-          canvasCtx.fillStyle = '#06b6d4';
+          canvasCtx.fillStyle = '#ffffff';
           canvasCtx.fillRect(x, canvas.height - barHeight, barWidth - 1, barHeight);
           x += barWidth;
         }
@@ -212,7 +212,7 @@ export default function MeetingRoom({
             id: `mic-${Date.now()}`,
             speaker: 'Live Teammate (Mic)',
             role: 'Meeting Participant',
-            avatarColor: 'bg-indigo-600',
+            avatarColor: 'bg-neutral-600',
             text: final.trim(),
             timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             isUser: false,
@@ -285,12 +285,12 @@ export default function MeetingRoom({
       {/* Top Meeting Header */}
       <div className="px-4 py-3 bg-neutral-900 border-b border-neutral-800 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></div>
+          <div className="w-2.5 h-2.5 rounded-full bg-white animate-pulse"></div>
           <div>
             <h3 className="text-sm font-bold text-neutral-100 flex items-center gap-2">
               Sprint Standup & Architecture Sync
               <span className="text-[10px] bg-neutral-800 text-neutral-400 font-mono px-2 py-0.5 rounded-full border border-neutral-700">
-                MEET-ID: SYN-2026
+                MEET-ID: DLC-2026
               </span>
             </h3>
             <p className="text-[11px] text-neutral-400">4 Active Participants • Zero-Hardware Bridge Active</p>
@@ -313,12 +313,12 @@ export default function MeetingRoom({
             onClick={toggleMicListening}
             className={`py-1.5 px-3 rounded-xl text-xs font-semibold flex items-center gap-2 transition ${
               isMicListening
-                ? 'bg-red-600 text-white shadow-lg shadow-red-600/30 animate-pulse'
+                ? 'bg-white text-black shadow-lg shadow-white/20 animate-pulse'
                 : 'bg-neutral-800 hover:bg-neutral-700 text-neutral-200 border border-neutral-700'
             }`}
             title="Listen to real ambient microphone audio and distill into HUD glance cards"
           >
-            {isMicListening ? <Mic className="w-3.5 h-3.5" /> : <MicOff className="w-3.5 h-3.5 text-neutral-400" />}
+            {isMicListening ? <Mic className="w-3.5 h-3.5 text-black" /> : <MicOff className="w-3.5 h-3.5 text-neutral-400" />}
             <span>{isMicListening ? 'Listening...' : 'Listen via Mic'}</span>
           </button>
         </div>
@@ -330,25 +330,25 @@ export default function MeetingRoom({
         <div
           className={`relative aspect-video rounded-xl overflow-hidden bg-neutral-900 border flex flex-col justify-between p-2.5 transition-all duration-300 ${
             isUserSpeaking
-              ? 'border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.5)] ring-2 ring-cyan-400/40'
+              ? 'border-white shadow-[0_0_20px_rgba(255,255,255,0.3)] ring-2 ring-white/40'
               : activeFloorUser
-              ? 'border-amber-400 ring-2 ring-amber-400/30'
+              ? 'border-neutral-400 ring-2 ring-neutral-400/30'
               : 'border-neutral-800'
           }`}
         >
           <div className="flex items-center justify-between z-10">
-            <span className="text-[10px] font-bold text-cyan-300 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-800/60">
-              SYNAPSE BRIDGE
+            <span className="text-[10px] font-bold text-white bg-neutral-800 px-2 py-0.5 rounded border border-neutral-700">
+              DIALECTICA BRIDGE
             </span>
             {isUserSpeaking && (
-              <span className="flex items-center gap-1 text-[10px] text-cyan-300 font-semibold bg-cyan-900/60 px-1.5 py-0.5 rounded">
+              <span className="flex items-center gap-1 text-[10px] text-black font-semibold bg-white px-1.5 py-0.5 rounded">
                 <Volume2 className="w-3 h-3 animate-bounce" /> Speaking
               </span>
             )}
           </div>
 
           <div className="flex flex-col items-center justify-center my-auto">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-600 to-blue-500 flex items-center justify-center text-white font-bold text-sm shadow-md">
+            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-black font-bold text-sm shadow-md">
               {userInitials}
             </div>
           </div>
@@ -365,14 +365,14 @@ export default function MeetingRoom({
             key={idx}
             className={`relative aspect-video rounded-xl overflow-hidden bg-neutral-900 border flex flex-col justify-between p-2.5 transition-all duration-300 ${
               peer.isSpeaking
-                ? 'border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.4)] ring-2 ring-emerald-400/40'
+                ? 'border-white shadow-[0_0_20px_rgba(255,255,255,0.25)] ring-2 ring-white/40'
                 : 'border-neutral-800'
             }`}
           >
             <div className="flex items-center justify-between z-10">
               <span className="text-[10px] text-neutral-400 font-mono">1080p</span>
               {peer.isSpeaking && (
-                <span className="flex items-center gap-1 text-[10px] text-emerald-300 font-semibold bg-emerald-950/80 px-1.5 py-0.5 rounded border border-emerald-800/40">
+                <span className="flex items-center gap-1 text-[10px] text-white font-semibold bg-neutral-800 px-1.5 py-0.5 rounded border border-neutral-700">
                   <Volume2 className="w-3 h-3 animate-bounce" /> Talking
                 </span>
               )}
@@ -401,7 +401,7 @@ export default function MeetingRoom({
       <div className="flex-1 flex flex-col min-h-[220px] max-h-[320px] p-3 overflow-hidden">
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs font-semibold text-neutral-300 flex items-center gap-1.5">
-            <MessageSquare className="w-3.5 h-3.5 text-cyan-400" /> Live Meeting Transcript Stream
+            <MessageSquare className="w-3.5 h-3.5 text-white" /> Live Meeting Transcript Stream
           </span>
           <span className="text-[10px] text-neutral-500 font-mono">Auto-Distills to HUD</span>
         </div>
@@ -413,7 +413,7 @@ export default function MeetingRoom({
               key={m.id}
               className={`p-2.5 rounded-xl border text-xs leading-relaxed animate-in fade-in duration-200 ${
                 m.isUser
-                  ? 'bg-cyan-950/40 border-cyan-500/50 text-cyan-100 ml-4'
+                  ? 'bg-neutral-800 border-white text-white ml-4'
                   : 'bg-neutral-900/70 border-neutral-800 text-neutral-200 mr-4'
               }`}
             >
@@ -436,7 +436,7 @@ export default function MeetingRoom({
       <div className="p-2.5 bg-neutral-900 border-t border-neutral-800 text-xs">
         <div className="flex items-center justify-between mb-1.5">
           <span className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider flex items-center gap-1">
-            <Zap className="w-3 h-3 text-cyan-400" /> Interactive Teammate Questions (Click to Ask Alex):
+            <Zap className="w-3 h-3 text-white" /> Interactive Teammate Questions (Click to Ask Alex):
           </span>
         </div>
         <div className="flex flex-wrap gap-1.5">
@@ -445,7 +445,7 @@ export default function MeetingRoom({
               injectPeerQuestion(
                 'Sarah Chen',
                 'Staff Architect',
-                'bg-emerald-600',
+                'bg-neutral-700',
                 'Alex, could you approve the auth middleware PR #412 so we can deploy to staging today?'
               )
             }
@@ -458,7 +458,7 @@ export default function MeetingRoom({
               injectPeerQuestion(
                 'Marcus Vance',
                 'Senior Backend',
-                'bg-blue-600',
+                'bg-neutral-800',
                 'Hey Alex, are you seeing any blockers on the Redis caching benchmark tests?'
               )
             }
@@ -471,7 +471,7 @@ export default function MeetingRoom({
               injectPeerQuestion(
                 'Priya Sharma',
                 'Product Lead',
-                'bg-purple-600',
+                'bg-neutral-600',
                 'Alex, do you think we can commit to finishing the checkout flow redesign this sprint?'
               )
             }

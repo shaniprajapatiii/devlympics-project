@@ -19,6 +19,11 @@ export interface DistillMeetingParams {
   tone?: ToneType;
 }
 
+export interface ChatHistoryEntry {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
 export class GeminiService {
   private static getClient(): GoogleGenerativeAI | null {
     const apiKey = process.env.GEMINI_API_KEY;
@@ -42,7 +47,7 @@ export class GeminiService {
     if (client) {
       try {
         const model = client.getGenerativeModel({ model: 'gemini-1.5-flash' });
-        const prompt = `You are SynapseFlow, an ultra-fast speech proxy for a non-verbal engineer communicating in a live team meeting.
+        const prompt = `You are Dialectica, an ultra-fast speech proxy for a non-verbal engineer communicating in a live team meeting.
 Convert this sparse intent into ONE natural spoken sentence.
 
 [Parameters]:
@@ -84,7 +89,7 @@ Convert this sparse intent into ONE natural spoken sentence.
           generationConfig: { responseMimeType: 'application/json' },
         });
 
-        const prompt = `You are SynapseFlow's Real-Time Gaze Distiller.
+        const prompt = `You are Dialectica's Real-Time Gaze Distiller.
 Analyze the recent team dialogue and generate exactly 4 distinct, highly relevant response options for a non-verbal participant to select with eye gaze.
 
 Meeting snippet:
@@ -147,6 +152,61 @@ Output JSON array with exactly 4 objects:
 
     // Dynamic contextual cards based on transcript keywords
     return this.generateHeuristicCards(params.recentTranscript);
+  }
+
+  public static async chatWithBridge(
+    message: string,
+    history: ChatHistoryEntry[]
+  ): Promise<string> {
+    const client = this.getClient();
+
+    if (client) {
+      try {
+        const model = client.getGenerativeModel({ model: 'gemini-1.5-flash' });
+        const transcript = history
+          .slice(-8)
+          .map((entry) => `${entry.role === 'user' ? 'Visitor' : 'Bridge Guide'}: ${entry.content}`)
+          .join('\n');
+        const prompt = `You are the Bridge Guide for Dialectica, a product themed "Bridge the Gap".
+Dialectica connects people who have motor or speech impairments with engineering teams through eye gaze, voice synthesis, context-aware communication, and accessible collaboration tools.
+
+Help visitors understand the product and translate complicated technical or opportunity-related ideas into clear, practical next steps.
+Be warm, concise, inclusive, and honest. Do not claim to perform actions you cannot perform.
+Answer in 2-4 short sentences. If the visitor asks something unrelated, briefly acknowledge it and guide them back to accessibility, communication, or simplifying complex information.
+
+Recent conversation:
+${transcript || '(none)'}
+
+Visitor's latest message:
+${message}`;
+        const result = await model.generateContent(prompt);
+        const text = result.response.text().trim();
+        if (text) return text;
+      } catch (error) {
+        console.warn('Gemini bridge chat error, using local fallback:', error);
+      }
+    }
+
+    return this.generateBridgeChatFallback(message);
+  }
+
+  private static generateBridgeChatFallback(message: string): string {
+    const lower = message.toLowerCase();
+
+    if (lower.includes('what') && (lower.includes('dialectica') || lower.includes('do'))) {
+      return 'Dialectica is an assistive collaboration bridge for people who communicate differently. It turns gaze or lightweight intent into natural speech and shared context, helping every participant contribute to technical conversations.';
+    }
+    if (lower.includes('access') || lower.includes('disab') || lower.includes('gap')) {
+      return 'The bridge reduces the gap between a person’s ideas and the tools their team uses. Eye-gaze interaction, intent cards, voice output, and context-aware suggestions let someone participate without needing a conventional keyboard or voice.';
+    }
+    if (lower.includes('simpl') || lower.includes('complex') || lower.includes('explain')) {
+      return 'A useful way to simplify a complex idea is to name the goal, remove jargon, and give one concrete example. Share the idea here and I’ll turn it into a clear explanation and next steps.';
+    }
+    if (lower.includes('feature') || lower.includes('help') || lower.includes('how')) {
+      return 'I can help you understand the accessibility bridge, turn a complicated requirement into steps, or point you toward the live dashboard. What would you like to make easier to understand?';
+    }
+
+    return 'That sounds like a gap we can make smaller. Tell me who is trying to connect, what is getting in the way, and what a successful interaction would look like.';
   }
 
   private static generateDynamicFallback(params: ExpandIntentParams): string {

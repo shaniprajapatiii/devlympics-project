@@ -43,7 +43,7 @@ interface PRPreset {
 const PR_PRESETS: PRPreset[] = [
   {
     id: 'pr-842',
-    title: 'PR #842: Add Redis Distributed Lock Lease Timeout',
+    title: 'PR #842: Distributed Lock Lease Extension & Mutex Safety',
     file: 'src/auth/sessionLock.ts',
     line: 42,
     diff: `diff --git a/src/auth/sessionLock.ts b/src/auth/sessionLock.ts
@@ -71,30 +71,30 @@ index 4b8e21a..912f87c 100644
     ],
     quickActions: [
       {
-        label: '✅ Approve Diff',
-        icon: '✅',
-        color: 'border-emerald-500/40 bg-emerald-950/40 hover:bg-emerald-950/70 text-emerald-300',
+        label: 'Approve Diff',
+        icon: '✓',
+        color: 'border-neutral-700 bg-neutral-900 hover:border-white text-white',
         speech:
           "I've verified the Redis PX 5000ms lease duration; tests confirm zero deadlock. Approved!",
       },
       {
-        label: '⚠️ Flag Cluster Failover',
-        icon: '⚠️',
-        color: 'border-amber-500/40 bg-amber-950/40 hover:bg-amber-950/70 text-amber-300',
+        label: 'Flag Cluster Failover',
+        icon: '!',
+        color: 'border-neutral-700 bg-neutral-900 hover:border-white text-white',
         speech:
           'What occurs if the Redis cluster undergoes a failover while activeLeases map is set in memory?',
       },
       {
-        label: '🔍 Request Benchmark',
-        icon: '🔍',
-        color: 'border-cyan-500/40 bg-cyan-950/40 hover:bg-cyan-950/70 text-cyan-300',
+        label: 'Request Benchmark',
+        icon: '?',
+        color: 'border-neutral-700 bg-neutral-900 hover:border-white text-white',
         speech:
           'Could we run a quick concurrency benchmark with 500 parallel workers to verify mutex release latency?',
       },
       {
-        label: '🔄 Architecture Sync',
-        icon: '🔄',
-        color: 'border-purple-500/40 bg-purple-950/40 hover:bg-purple-950/70 text-purple-300',
+        label: 'Architecture Sync',
+        icon: '↔',
+        color: 'border-neutral-700 bg-neutral-900 hover:border-white text-white',
         speech:
           'I recommend a quick 5-minute architecture huddle on handling split-brain edge cases.',
       },
@@ -126,30 +126,30 @@ index e83b129..a442cf1 100644
     ],
     quickActions: [
       {
-        label: '🛡️ Approve Replay Defense',
-        icon: '🛡️',
-        color: 'border-emerald-500/40 bg-emerald-950/40 hover:bg-emerald-950/70 text-emerald-300',
+        label: 'Approve Replay Defense',
+        icon: '✓',
+        color: 'border-neutral-700 bg-neutral-900 hover:border-white text-white',
         speech:
           'The token family revocation logic is rock-solid and prevents token replay attacks. Approved!',
       },
       {
-        label: '⏱️ Grace Period Query',
-        icon: '⏱️',
-        color: 'border-amber-500/40 bg-amber-950/40 hover:bg-amber-950/70 text-amber-300',
+        label: 'Grace Period Query',
+        icon: '?',
+        color: 'border-neutral-700 bg-neutral-900 hover:border-white text-white',
         speech:
           'Should we allow a 1.5-second grace window for slow mobile clients that issue parallel network retries?',
       },
       {
-        label: '📊 Add Security Telemetry',
-        icon: '📊',
-        color: 'border-cyan-500/40 bg-cyan-950/40 hover:bg-cyan-950/70 text-cyan-300',
+        label: 'Add Security Telemetry',
+        icon: '!',
+        color: 'border-neutral-700 bg-neutral-900 hover:border-white text-white',
         speech:
-          'Let us ensure revoked token attempts emit a P1 security event to Datadog with user IP address.',
+          'Let us ensure revoked token attempts emit a P1 security event with user IP address.',
       },
       {
-        label: '✅ Ready for Staging',
-        icon: '✅',
-        color: 'border-purple-500/40 bg-purple-950/40 hover:bg-purple-950/70 text-purple-300',
+        label: 'Ready for Staging',
+        icon: '✓',
+        color: 'border-neutral-700 bg-neutral-900 hover:border-white text-white',
         speech:
           'Implementation looks ready to roll to staging for end-to-end client verification.',
       },
@@ -181,30 +181,30 @@ index c12a77b..ff98012 100644
     ],
     quickActions: [
       {
-        label: '⚡ Endorse Pool Tuning',
-        icon: '⚡',
-        color: 'border-emerald-500/40 bg-emerald-950/40 hover:bg-emerald-950/70 text-emerald-300',
+        label: 'Endorse Pool Tuning',
+        icon: '✓',
+        color: 'border-neutral-700 bg-neutral-900 hover:border-white text-white',
         speech:
           'The 2-second timeout and 1-second reap interval will prevent pool starvation under traffic spikes. LGTM!',
       },
       {
-        label: '⚠️ Check Max Clients',
-        icon: '⚠️',
-        color: 'border-amber-500/40 bg-amber-950/40 hover:bg-amber-950/70 text-amber-300',
+        label: 'Check Max Clients',
+        icon: '?',
+        color: 'border-neutral-700 bg-neutral-900 hover:border-white text-white',
         speech:
           'Does our RDS instance max_connections headroom accommodate 50 connections across all 8 pods?',
       },
       {
-        label: '📈 Grafana Metric Check',
-        icon: '📈',
-        color: 'border-cyan-500/40 bg-cyan-950/40 hover:bg-cyan-950/70 text-cyan-300',
+        label: 'Grafana Metric Check',
+        icon: '!',
+        color: 'border-neutral-700 bg-neutral-900 hover:border-white text-white',
         speech:
           'Let us monitor the active connection gauge in Grafana during the canary rollout.',
       },
       {
-        label: '🚀 Merge after Canary',
-        icon: '🚀',
-        color: 'border-purple-500/40 bg-purple-950/40 hover:bg-purple-950/70 text-purple-300',
+        label: 'Merge after Canary',
+        icon: '✓',
+        color: 'border-neutral-700 bg-neutral-900 hover:border-white text-white',
         speech:
           'I recommend deploying to canary pod first for 15 minutes before global merge.',
       },
@@ -243,50 +243,49 @@ export default function CodeReviewBridge({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          documentType: 'GitHub Pull Request Diff',
-          content: `${prTitle}\n\n${prDiff}`,
+          content: prDiff,
+          documentType: 'Pull Request Code Diff',
           tone,
         }),
       });
-
       const data = await res.json();
       if (data.success && Array.isArray(data.options)) {
         onLoadPRCardsToHUD(data.options);
       }
-    } catch (err) {
-      console.warn('Code diff ingestion failed:', err);
+    } catch (e) {
+      console.error('Failed to ingest diff:', e);
     } finally {
       setIsIngesting(false);
     }
   };
 
-  const handleQuickPostComment = (text: string) => {
-    const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    setPostedComments((prev) => [
-      ...prev,
-      {
-        line: activePreset.line,
-        comment: text,
-        timestamp,
-      },
-    ]);
-    SpeechService.speakText(text, tone);
-    onReviewAction?.(text, prTitle);
+  const handleQuickPostComment = (speechText: string) => {
+    const newComment = {
+      line: activePreset.line,
+      comment: speechText,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    };
+    setPostedComments((prev) => [newComment, ...prev]);
+
+    // Speak aloud in selected tone
+    SpeechService.speakText(speechText, tone);
+    onReviewAction?.(speechText, prTitle);
   };
 
   return (
-    <div className="bg-neutral-900/80 border border-neutral-800 rounded-2xl p-6 space-y-6 shadow-2xl">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-neutral-800 pb-4">
+    <div className="bg-neutral-950 border border-neutral-800 rounded-3xl p-6 sm:p-8 space-y-6 text-white">
+      {/* Top Banner */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-neutral-800 gap-4">
         <div>
-          <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest bg-cyan-500/10 border border-cyan-500/30 px-2.5 py-0.5 rounded-full">
-            Bi-Directional Code Review Bridge
+          <span className="text-[10px] font-bold text-white uppercase tracking-wider bg-neutral-900 border border-neutral-700 px-2.5 py-1 rounded-full">
+            Engineering Autonomy Module
           </span>
-          <h3 className="text-lg font-extrabold text-white mt-1 flex items-center gap-2">
-            <GitPullRequest className="w-5 h-5 text-cyan-400" />
-            <span>Gaze-Driven GitHub PR Review & Pair Programming</span>
+          <h3 className="text-lg font-black text-white mt-1 flex items-center gap-2">
+            <GitPullRequest className="w-5 h-5 text-white" />
+            <span>Gaze-Driven Pull Request & Code Review Bridge</span>
           </h3>
           <p className="text-xs text-neutral-400">
-            Enabling motor-impaired senior engineers to lead technical code reviews, synthesize spoken reviews, and post line-by-line feedback using eye gaze.
+            Ingest live code diffs and convert technical review actions into 4 glanceable options.
           </p>
         </div>
 
@@ -294,9 +293,9 @@ export default function CodeReviewBridge({
           <button
             onClick={handleIngestDiff}
             disabled={isIngesting}
-            className="py-2 px-4 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-cyan-500/20 transition shrink-0"
+            className="px-4 py-2 rounded-xl bg-white hover:bg-neutral-200 text-black font-bold text-xs shadow-lg transition flex items-center gap-1.5 disabled:opacity-50"
           >
-            <Sparkles className="w-4 h-4" />
+            <Sparkles className="w-3.5 h-3.5 fill-black" />
             <span>{isIngesting ? 'Ingesting Code Diff...' : 'Load Diff to Gaze HUD'}</span>
           </button>
         </div>
@@ -306,11 +305,11 @@ export default function CodeReviewBridge({
       <div className="space-y-2">
         <div className="flex items-center justify-between text-xs">
           <span className="font-semibold text-neutral-300 flex items-center gap-1.5">
-            <Layers className="w-3.5 h-3.5 text-cyan-400" /> Select Pull Request Scenario:
+            <Layers className="w-3.5 h-3.5 text-white" /> Select Pull Request Scenario:
           </span>
           <button
             onClick={() => setCustomMode(!customMode)}
-            className="text-[11px] text-cyan-400 hover:underline flex items-center gap-1"
+            className="text-[11px] text-white hover:underline flex items-center gap-1 font-semibold"
           >
             <Edit3 className="w-3 h-3" /> {customMode ? 'Back to Presets' : 'Paste Custom PR Diff'}
           </button>
@@ -326,8 +325,8 @@ export default function CodeReviewBridge({
                   onClick={() => handleSelectPreset(p)}
                   className={`p-3 rounded-xl border cursor-pointer transition text-left ${
                     isSelected
-                      ? 'bg-cyan-950/60 border-cyan-400 text-white shadow-md shadow-cyan-500/10'
-                      : 'bg-neutral-950/70 border-neutral-800 text-neutral-300 hover:border-neutral-700'
+                      ? 'bg-neutral-900 border-white text-white shadow-md'
+                      : 'bg-black border-neutral-800 text-neutral-400 hover:border-neutral-600 hover:text-white'
                   }`}
                 >
                   <p className="font-bold text-xs truncate">{p.title}</p>
@@ -337,19 +336,19 @@ export default function CodeReviewBridge({
             })}
           </div>
         ) : (
-          <div className="space-y-2 bg-neutral-950 p-3 rounded-xl border border-neutral-800 animate-in fade-in duration-100">
+          <div className="space-y-2 bg-black p-3 rounded-xl border border-neutral-800 animate-in fade-in duration-100">
             <input
               type="text"
               value={prTitle}
               onChange={(e) => setPrTitle(e.target.value)}
-              className="w-full bg-neutral-900 border border-neutral-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-cyan-400 font-semibold"
+              className="w-full bg-neutral-900 border border-neutral-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-white font-semibold"
               placeholder="PR Title (e.g. PR #123: Add Kafka Event Consumer)"
             />
             <textarea
               rows={5}
               value={prDiff}
               onChange={(e) => setPrDiff(e.target.value)}
-              className="w-full bg-neutral-900 border border-neutral-700 rounded-lg p-2 font-mono text-[11px] text-neutral-300 focus:outline-none focus:border-cyan-400 resize-none"
+              className="w-full bg-neutral-900 border border-neutral-700 rounded-lg p-2 font-mono text-[11px] text-neutral-300 focus:outline-none focus:border-white resize-none"
               placeholder="Paste Git unified diff here..."
             />
           </div>
@@ -361,12 +360,12 @@ export default function CodeReviewBridge({
         <div className="lg:col-span-7 space-y-3">
           <div className="flex items-center justify-between text-xs text-neutral-300">
             <span className="font-bold flex items-center gap-1.5 text-white">
-              <FileCode className="w-4 h-4 text-cyan-400" /> {prTitle}
+              <FileCode className="w-4 h-4 text-white" /> {prTitle}
             </span>
-            <span className="text-[10px] text-neutral-500 font-mono">{activePreset.file}</span>
+            <span className="text-[10px] text-neutral-400 font-mono">{activePreset.file}</span>
           </div>
 
-          <div className="bg-neutral-950 border border-neutral-800 rounded-xl p-3 font-mono text-xs overflow-x-auto text-neutral-300 space-y-0.5 leading-relaxed max-h-[300px]">
+          <div className="bg-black border border-neutral-800 rounded-xl p-3 font-mono text-xs overflow-x-auto text-neutral-300 space-y-0.5 leading-relaxed max-h-[300px]">
             {prDiff.split('\n').map((line, idx) => {
               const isAdded = line.startsWith('+');
               const isDeleted = line.startsWith('-');
@@ -376,11 +375,11 @@ export default function CodeReviewBridge({
                   key={idx}
                   className={`px-1 rounded ${
                     isAdded
-                      ? 'bg-emerald-950/40 text-emerald-300'
+                      ? 'bg-neutral-900 text-white font-bold'
                       : isDeleted
-                      ? 'bg-red-950/40 text-red-300'
+                      ? 'text-neutral-500 line-through'
                       : isHunk
-                      ? 'text-neutral-500'
+                      ? 'text-neutral-400'
                       : 'text-neutral-300'
                   }`}
                 >
@@ -413,24 +412,24 @@ export default function CodeReviewBridge({
         </div>
 
         {/* Right: Live GitHub PR Comments Feed */}
-        <div className="lg:col-span-5 bg-neutral-950 border border-neutral-800 rounded-xl p-4 flex flex-col justify-between min-h-[340px]">
+        <div className="lg:col-span-5 bg-black border border-neutral-800 rounded-xl p-4 flex flex-col justify-between min-h-[340px]">
           <div>
             <div className="flex items-center justify-between pb-2 border-b border-neutral-800 mb-3">
-              <span className="text-xs font-bold text-neutral-200 flex items-center gap-1.5">
-                <MessageSquare className="w-3.5 h-3.5 text-cyan-400" /> Line {activePreset.line} Review Thread
+              <span className="text-xs font-bold text-white flex items-center gap-1.5">
+                <MessageSquare className="w-3.5 h-3.5 text-white" /> Line {activePreset.line} Review Thread
               </span>
-              <span className="text-[10px] text-cyan-400 font-mono">Live Sync</span>
+              <span className="text-[10px] text-neutral-400 font-mono">Live Sync</span>
             </div>
 
             <div className="space-y-2.5 max-h-[250px] overflow-y-auto pr-1">
               {postedComments.map((c, i) => (
                 <div
                   key={i}
-                  className="bg-neutral-900 border border-neutral-800 rounded-xl p-3 text-xs space-y-1 animate-in fade-in duration-150"
+                  className="bg-neutral-950 border border-neutral-800 rounded-xl p-3 text-xs space-y-1 animate-in fade-in duration-150"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-cyan-300 flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
+                    <span className="font-bold text-white flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full bg-white"></span>
                       {userName} ({userRole.split(' ')[0]} Reviewer)
                     </span>
                     <span className="text-[10px] text-neutral-500 font-mono">{c.timestamp}</span>
@@ -443,7 +442,7 @@ export default function CodeReviewBridge({
             </div>
           </div>
 
-          <div className="pt-3 border-t border-neutral-800/80 text-[10px] text-neutral-500">
+          <div className="pt-3 border-t border-neutral-800 text-[10px] text-neutral-500">
             Speaking and commenting synchronized with Google Meet audio channel, Slack webhook, and GitHub Pull Request thread.
           </div>
         </div>

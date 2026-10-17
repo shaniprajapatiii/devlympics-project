@@ -228,7 +228,7 @@ export default function EyeTracker({
                   type: 'browRaise',
                   label: 'Brow Raise Detected',
                   sublabel: 'Reserving Meeting Floor Beacon',
-                  color: 'border-cyan-400 bg-cyan-950/90 text-cyan-200',
+                  color: 'border-white bg-neutral-900/95 text-white',
                 });
                 onGesture?.('browRaise');
                 setTimeout(() => setActiveGestureToast(null), 1500);
@@ -237,7 +237,7 @@ export default function EyeTracker({
                   type: 'nod',
                   label: 'Head Nod Detected',
                   sublabel: 'Quick Affirmation Dispatched',
-                  color: 'border-emerald-400 bg-emerald-950/90 text-emerald-200',
+                  color: 'border-white bg-neutral-900/95 text-white',
                 });
                 onGesture?.('nod');
                 setTimeout(() => setActiveGestureToast(null), 1500);
@@ -246,7 +246,7 @@ export default function EyeTracker({
                   type: 'shake',
                   label: 'Head Shake Detected',
                   sublabel: 'Soft Hold / Selection Aborted',
-                  color: 'border-amber-400 bg-amber-950/90 text-amber-200',
+                  color: 'border-white bg-neutral-900/95 text-white',
                 });
                 onGesture?.('shake');
                 setTimeout(() => setActiveGestureToast(null), 1500);
@@ -276,7 +276,7 @@ export default function EyeTracker({
       // Draw Left Eye Contour (indices: 33, 160, 158, 133, 153, 144)
       const leftEyeIndices = [33, 160, 158, 133, 153, 144, 33];
       ctx.beginPath();
-      ctx.strokeStyle = coords.isBlinking ? '#ef4444' : '#06b6d4';
+      ctx.strokeStyle = coords.isBlinking ? '#737373' : '#ffffff';
       ctx.lineWidth = 1.5;
       leftEyeIndices.forEach((idx, i) => {
         const pt = landmarks[idx];
@@ -288,7 +288,7 @@ export default function EyeTracker({
       // Draw Right Eye Contour (indices: 263, 385, 387, 362, 373, 380)
       const rightEyeIndices = [263, 385, 387, 362, 373, 380, 263];
       ctx.beginPath();
-      ctx.strokeStyle = coords.isBlinking ? '#ef4444' : '#06b6d4';
+      ctx.strokeStyle = coords.isBlinking ? '#737373' : '#ffffff';
       ctx.lineWidth = 1.5;
       rightEyeIndices.forEach((idx, i) => {
         const pt = landmarks[idx];
@@ -305,13 +305,13 @@ export default function EyeTracker({
         // Left Iris
         ctx.beginPath();
         ctx.arc(leftIris.x * w, leftIris.y * h, 3.5, 0, Math.PI * 2);
-        ctx.fillStyle = '#38bdf8';
+        ctx.fillStyle = '#ffffff';
         ctx.fill();
 
         // Right Iris
         ctx.beginPath();
         ctx.arc(rightIris.x * w, rightIris.y * h, 3.5, 0, Math.PI * 2);
-        ctx.fillStyle = '#38bdf8';
+        ctx.fillStyle = '#ffffff';
         ctx.fill();
       }
     }
@@ -360,7 +360,7 @@ export default function EyeTracker({
         {/* Loading Spinner */}
         {isLoading && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-neutral-900/90 text-white gap-3 p-4 text-center">
-            <div className="w-8 h-8 rounded-full border-2 border-cyan-400 border-t-transparent animate-spin"></div>
+            <div className="w-8 h-8 rounded-full border-2 border-white border-t-transparent animate-spin"></div>
             <p className="text-xs text-neutral-300 font-medium">
               Initializing MediaPipe 478-Landmark Vision Engine...
             </p>
@@ -370,12 +370,12 @@ export default function EyeTracker({
         {/* Error Fallback */}
         {errorMessage && !isLoading && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-neutral-900/95 text-white gap-2 p-4 text-center">
-            <AlertCircle className="w-7 h-7 text-amber-400" />
-            <p className="text-xs text-amber-200 font-semibold">Webcam Not Detected</p>
+            <AlertCircle className="w-7 h-7 text-white" />
+            <p className="text-xs text-white font-semibold">Webcam Not Detected</p>
             <p className="text-[11px] text-neutral-400 max-w-xs">{errorMessage}</p>
             <button
               onClick={onToggleMouseSimulation}
-              className="mt-2 py-1.5 px-3 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-xs font-medium text-white flex items-center gap-1.5 transition"
+              className="mt-2 py-1.5 px-3 rounded-lg bg-white hover:bg-neutral-200 text-xs font-semibold text-black flex items-center gap-1.5 transition"
             >
               <MousePointer className="w-3.5 h-3.5" /> Enable Cursor Simulation Mode
             </button>
@@ -384,7 +384,7 @@ export default function EyeTracker({
 
         {/* Mouse Simulation Watermark */}
         {isSimulatingMouse && (
-          <div className="absolute top-2 left-2 bg-purple-500/80 backdrop-blur-md px-2.5 py-1 rounded-md text-[10px] font-semibold text-white flex items-center gap-1.5 border border-purple-400/30">
+          <div className="absolute top-2 left-2 bg-neutral-800/90 backdrop-blur-md px-2.5 py-1 rounded-md text-[10px] font-semibold text-white flex items-center gap-1.5 border border-neutral-700">
             <MousePointer className="w-3 h-3 animate-pulse" /> CURSOR SIMULATION MODE
           </div>
         )}
@@ -394,23 +394,23 @@ export default function EyeTracker({
           <div className="bg-neutral-900/85 backdrop-blur-md border border-neutral-700/60 rounded px-2 py-0.5 text-[10px] font-mono text-neutral-300 flex items-center gap-1.5">
             <span
               className={`w-1.5 h-1.5 rounded-full ${
-                cameraActive ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'
+                cameraActive ? 'bg-white animate-pulse' : 'bg-neutral-500'
               }`}
             ></span>
             {fps} FPS
           </div>
           <div className="bg-neutral-900/85 backdrop-blur-md border border-neutral-700/60 rounded px-2 py-0.5 text-[10px] font-mono text-neutral-300">
             EAR:{' '}
-            <span className={currentEar < 0.2 ? 'text-red-400 font-bold' : 'text-cyan-400'}>
+            <span className={currentEar < 0.2 ? 'text-white font-bold underline' : 'text-neutral-300'}>
               {currentEar.toFixed(2)}
             </span>
           </div>
           {gesturesEnabled && cameraActive && (
             <div className="bg-neutral-900/85 backdrop-blur-md border border-neutral-700/60 rounded px-2 py-0.5 text-[10px] font-mono text-neutral-300 flex items-center gap-1">
               <span>Pose:</span>
-              <span className="text-cyan-400">{gestureDiagnostics.headPitch > 0 ? `+${gestureDiagnostics.headPitch}` : gestureDiagnostics.headPitch}°</span>
+              <span className="text-white">{gestureDiagnostics.headPitch > 0 ? `+${gestureDiagnostics.headPitch}` : gestureDiagnostics.headPitch}°</span>
               <span className="text-neutral-500">|</span>
-              <span className="text-purple-400">Brow: {gestureDiagnostics.browRatio}x</span>
+              <span className="text-neutral-400">Brow: {gestureDiagnostics.browRatio}x</span>
             </div>
           )}
         </div>
@@ -430,7 +430,7 @@ export default function EyeTracker({
 
         {/* Prolonged Blink Alert */}
         {isBlinking && (
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-red-500/90 text-white text-[11px] font-medium px-3 py-1 rounded-full flex items-center gap-1.5 animate-pulse shadow-lg z-10">
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-white text-black text-[11px] font-bold px-3 py-1 rounded-full flex items-center gap-1.5 animate-pulse shadow-lg z-10">
             <ShieldAlert className="w-3.5 h-3.5" /> Blink Detected
           </div>
         )}
@@ -439,13 +439,13 @@ export default function EyeTracker({
       {/* Control Toolbar */}
       <div className="p-3 bg-neutral-900 border-t border-neutral-800 flex items-center justify-between text-xs">
         <div className="flex items-center gap-2 text-neutral-300">
-          <Eye className="w-4 h-4 text-cyan-400" />
+          <Eye className="w-4 h-4 text-white" />
           <span className="font-medium text-neutral-200">Zero-Hardware Gaze</span>
           <span
-            className={`text-[10px] px-1.5 py-0.5 rounded ${
+            className={`text-[10px] px-1.5 py-0.5 rounded border ${
               calibrationMatrix
-                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                : 'bg-neutral-800 text-neutral-400'
+                ? 'bg-neutral-800 text-white border-neutral-700'
+                : 'bg-neutral-950 text-neutral-400 border-neutral-800'
             }`}
           >
             {calibrationMatrix ? 'Calibrated' : 'Auto Default'}
@@ -457,9 +457,9 @@ export default function EyeTracker({
           <button
             onClick={() => setGesturesEnabled(!gesturesEnabled)}
             title={gesturesEnabled ? 'Facial Gestures Active (Nod/Shake/Brow)' : 'Facial Gestures Paused'}
-            className={`py-1 px-2 rounded-lg border text-[11px] font-medium transition flex items-center gap-1 ${
+            className={`py-1 px-2 rounded-lg border text-[11px] font-semibold transition flex items-center gap-1 ${
               gesturesEnabled
-                ? 'bg-cyan-950/60 border-cyan-500/40 text-cyan-300'
+                ? 'bg-white text-black border-white'
                 : 'bg-neutral-800 border-neutral-700 text-neutral-400'
             }`}
           >
@@ -471,9 +471,9 @@ export default function EyeTracker({
             <button
               onClick={onToggleMouseSimulation}
               title="Toggle Cursor Simulation Mode"
-              className={`p-1.5 rounded-lg border text-xs font-medium transition flex items-center gap-1 ${
+              className={`p-1.5 rounded-lg border text-xs font-semibold transition flex items-center gap-1 ${
                 isSimulatingMouse
-                  ? 'bg-purple-600/30 border-purple-500/50 text-purple-300'
+                  ? 'bg-white text-black border-white'
                   : 'bg-neutral-800 border-neutral-700 text-neutral-400 hover:text-white'
               }`}
             >
@@ -485,7 +485,7 @@ export default function EyeTracker({
             onClick={() => setCalibrationModalOpen(true)}
             className="py-1 px-2.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 text-neutral-300 hover:text-white flex items-center gap-1.5 transition text-[11px] font-medium"
           >
-            <Sliders className="w-3 h-3 text-cyan-400" /> Calibrate
+            <Sliders className="w-3 h-3 text-white" /> Calibrate
           </button>
         </div>
       </div>

@@ -143,7 +143,7 @@ export const PRESET_PACKS: PresetPack[] = [
   },
 ];
 
-const MACRO_PACKS_STORAGE_KEY = 'synapseflow_macro_packs_v1';
+const MACRO_PACKS_STORAGE_KEY = 'dialectica_macro_packs_v1';
 
 interface Props {
   activeOptions: QuadrantOption[];
@@ -219,7 +219,7 @@ export default function MacroStudio({ activeOptions, onApplyPack }: Props) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-neutral-800 pb-3">
         <div>
           <h3 className="text-base font-bold text-white flex items-center gap-2">
-            <Layers className="w-4 h-4 text-cyan-400" />
+            <Layers className="w-4 h-4 text-white" />
             <span>Macro Wheel Studio & Category Packs</span>
           </h3>
           <p className="text-xs text-neutral-400">
@@ -229,7 +229,7 @@ export default function MacroStudio({ activeOptions, onApplyPack }: Props) {
 
         <div className="flex items-center gap-2">
           {saveToast && (
-            <span className="text-[11px] text-emerald-400 font-semibold animate-in fade-in duration-150">
+            <span className="text-[11px] text-white font-semibold animate-in fade-in duration-150">
               ✓ Saved to Wheel!
             </span>
           )}
@@ -254,13 +254,13 @@ export default function MacroStudio({ activeOptions, onApplyPack }: Props) {
               onClick={() => handleSelectPack(pack)}
               className={`p-3.5 rounded-xl border cursor-pointer transition-all ${
                 isSelected
-                  ? 'bg-gradient-to-br from-cyan-950/70 to-neutral-900 border-cyan-400 text-white shadow-lg shadow-cyan-500/10'
+                  ? 'bg-neutral-800 border-white text-white shadow-lg shadow-white/5'
                   : 'bg-neutral-900/90 border-neutral-800 text-neutral-300 hover:border-neutral-700'
               }`}
             >
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs font-bold text-white">{pack.name}</span>
-                {isSelected && <Check className="w-4 h-4 text-cyan-400" />}
+                {isSelected && <Check className="w-4 h-4 text-white" />}
               </div>
               <p className="text-[11px] text-neutral-400 leading-relaxed line-clamp-2">
                 {pack.description}
@@ -288,12 +288,12 @@ export default function MacroStudio({ activeOptions, onApplyPack }: Props) {
               className="p-3 bg-neutral-950 border border-neutral-800 rounded-xl space-y-1.5 relative group"
             >
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-wider">
+                <span className="text-[10px] font-bold text-neutral-300 uppercase tracking-wider">
                   Quadrant {opt.quadrant} • {opt.category}
                 </span>
                 <button
                   onClick={() => setEditingQuadrant(opt.quadrant)}
-                  className="text-neutral-500 hover:text-cyan-400 text-xs flex items-center gap-1 transition"
+                  className="text-neutral-500 hover:text-white text-xs flex items-center gap-1 transition"
                 >
                   <Edit2 className="w-3 h-3" /> Edit
                 </button>
@@ -305,14 +305,14 @@ export default function MacroStudio({ activeOptions, onApplyPack }: Props) {
                     type="text"
                     defaultValue={opt.title}
                     id={`title-${opt.quadrant}`}
-                    className="w-full text-xs font-semibold bg-neutral-900 border border-neutral-700 rounded px-2 py-1 text-white focus:outline-none focus:border-cyan-400"
+                    className="w-full text-xs font-semibold bg-neutral-900 border border-neutral-700 rounded px-2 py-1 text-white focus:outline-none focus:border-white"
                     placeholder="Short Title"
                   />
                   <textarea
                     defaultValue={opt.previewText}
                     id={`preview-${opt.quadrant}`}
                     rows={2}
-                    className="w-full text-[11px] bg-neutral-900 border border-neutral-700 rounded px-2 py-1 text-neutral-300 focus:outline-none focus:border-cyan-400 resize-none"
+                    className="w-full text-[11px] bg-neutral-900 border border-neutral-700 rounded px-2 py-1 text-neutral-300 focus:outline-none focus:border-white resize-none"
                     placeholder="Spoken Response Sentence"
                   />
                   <div className="flex gap-2">
@@ -322,7 +322,7 @@ export default function MacroStudio({ activeOptions, onApplyPack }: Props) {
                         const p = (document.getElementById(`preview-${opt.quadrant}`) as HTMLTextAreaElement)?.value;
                         handleUpdateOption(opt.quadrant, t || opt.title, p || opt.previewText || '');
                       }}
-                      className="px-2.5 py-1 rounded bg-cyan-600 hover:bg-cyan-500 text-white text-[11px] font-semibold transition"
+                      className="px-2.5 py-1 rounded bg-white hover:bg-neutral-200 text-black text-[11px] font-semibold transition"
                     >
                       Save
                     </button>

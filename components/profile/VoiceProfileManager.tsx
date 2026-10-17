@@ -39,7 +39,7 @@ export default function VoiceProfileManager({ tone, onToneChange, onProfileChang
 
   const handleTestVoice = () => {
     SpeechService.speakText(
-      `Hello team, this is ${profile.userName}, ${profile.role}. SynapseFlow is active and tracking my gaze.`,
+      `Hello team, this is ${profile.userName}, ${profile.role}. Dialectica is active and tracking my gaze.`,
       tone,
       undefined,
       profile
@@ -57,11 +57,11 @@ export default function VoiceProfileManager({ tone, onToneChange, onProfileChang
     <div className="bg-neutral-900/80 border border-neutral-800 rounded-2xl p-6 space-y-6 shadow-2xl">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-neutral-800 pb-4">
         <div>
-          <span className="text-[10px] font-bold text-purple-400 uppercase tracking-widest bg-purple-500/10 border border-purple-500/30 px-2.5 py-0.5 rounded-full">
+          <span className="text-[10px] font-bold text-white uppercase tracking-widest bg-neutral-800 border border-neutral-700 px-2.5 py-0.5 rounded-full">
             Dignity & Self-Expression
           </span>
           <h3 className="text-lg font-extrabold text-white mt-1 flex items-center gap-2">
-            <User className="w-5 h-5 text-purple-400" />
+            <User className="w-5 h-5 text-white" />
             <span>Professional Identity & Neural Voice Calibrator</span>
           </h3>
           <p className="text-xs text-neutral-400">
@@ -71,7 +71,7 @@ export default function VoiceProfileManager({ tone, onToneChange, onProfileChang
 
         <button
           onClick={handleTestVoice}
-          className="py-2 px-4 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-purple-600/20 transition shrink-0"
+          className="py-2 px-4 rounded-xl bg-white hover:bg-neutral-200 text-black font-bold text-xs flex items-center gap-2 shadow-lg transition shrink-0"
         >
           <Play className="w-4 h-4 fill-current" />
           <span>Test Vocal Persona</span>
@@ -89,7 +89,7 @@ export default function VoiceProfileManager({ tone, onToneChange, onProfileChang
               type="text"
               value={profile.userName}
               onChange={(e) => setProfile((p) => ({ ...p, userName: e.target.value }))}
-              className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-400 font-semibold"
+              className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-white font-semibold"
             />
           </div>
 
@@ -101,7 +101,7 @@ export default function VoiceProfileManager({ tone, onToneChange, onProfileChang
               type="text"
               value={profile.role}
               onChange={(e) => setProfile((p) => ({ ...p, role: e.target.value }))}
-              className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-400 font-medium"
+              className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-white font-medium"
             />
           </div>
 
@@ -113,7 +113,7 @@ export default function VoiceProfileManager({ tone, onToneChange, onProfileChang
               type="text"
               value={profile.techStack}
               onChange={(e) => setProfile((p) => ({ ...p, techStack: e.target.value }))}
-              className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-400 font-mono text-[11px]"
+              className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-white font-mono text-[11px]"
             />
             <p className="text-[10px] text-neutral-500 mt-1">
               The Gemini engine ingests this technical domain to ensure generated responses use authentic engineering phrasing.
@@ -134,7 +134,7 @@ export default function VoiceProfileManager({ tone, onToneChange, onProfileChang
                   onClick={() => onToneChange(t)}
                   className={`py-2 px-3 rounded-xl border text-xs font-bold capitalize transition ${
                     tone === t
-                      ? 'bg-purple-500/20 border-purple-400 text-purple-300 shadow-md shadow-purple-500/10'
+                      ? 'bg-white border-white text-black shadow-md shadow-white/10'
                       : 'bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-white'
                   }`}
                 >
@@ -151,7 +151,7 @@ export default function VoiceProfileManager({ tone, onToneChange, onProfileChang
             <select
               value={profile.selectedVoice}
               onChange={(e) => setProfile((p) => ({ ...p, selectedVoice: e.target.value }))}
-              className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-400"
+              className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-white"
             >
               {availableVoices.length === 0 ? (
                 <option value="">Default System Natural Voice</option>
@@ -169,7 +169,7 @@ export default function VoiceProfileManager({ tone, onToneChange, onProfileChang
             <div>
               <div className="flex justify-between text-[11px] text-neutral-400 mb-1">
                 <span>Vocal Pitch</span>
-                <span className="font-mono text-purple-400 font-bold">{profile.speechPitch.toFixed(2)}</span>
+                <span className="font-mono text-white font-bold">{profile.speechPitch.toFixed(2)}</span>
               </div>
               <input
                 type="range"
@@ -178,14 +178,14 @@ export default function VoiceProfileManager({ tone, onToneChange, onProfileChang
                 step="0.05"
                 value={profile.speechPitch}
                 onChange={(e) => setProfile((p) => ({ ...p, speechPitch: Number(e.target.value) }))}
-                className="w-full accent-purple-500 cursor-pointer"
+                className="w-full accent-white cursor-pointer"
               />
             </div>
 
             <div>
               <div className="flex justify-between text-[11px] text-neutral-400 mb-1">
                 <span>Speech Speed</span>
-                <span className="font-mono text-purple-400 font-bold">{profile.speechRate.toFixed(2)}x</span>
+                <span className="font-mono text-white font-bold">{profile.speechRate.toFixed(2)}x</span>
               </div>
               <input
                 type="range"
@@ -194,7 +194,7 @@ export default function VoiceProfileManager({ tone, onToneChange, onProfileChang
                 step="0.05"
                 value={profile.speechRate}
                 onChange={(e) => setProfile((p) => ({ ...p, speechRate: Number(e.target.value) }))}
-                className="w-full accent-purple-500 cursor-pointer"
+                className="w-full accent-white cursor-pointer"
               />
             </div>
           </div>
@@ -204,11 +204,11 @@ export default function VoiceProfileManager({ tone, onToneChange, onProfileChang
       <div className="pt-2 flex justify-end">
         <button
           onClick={handleSave}
-          className="py-2.5 px-6 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-lg shadow-purple-600/20 transition flex items-center gap-1.5"
+          className="py-2.5 px-6 rounded-xl bg-white hover:bg-neutral-200 text-black font-bold text-xs shadow-lg transition flex items-center gap-1.5"
         >
           {savedSuccess ? (
             <>
-              <CheckCircle2 className="w-4 h-4 text-emerald-300" />
+              <CheckCircle2 className="w-4 h-4 text-black" />
               <span>Profile Calibrated & Persisted!</span>
             </>
           ) : (

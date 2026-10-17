@@ -9,13 +9,13 @@ export async function POST(req: NextRequest) {
     }
 
     const payload = {
-      username: `SynapseFlow (${userName || 'Alex Rivera'})`,
+      username: `Dialectica (${userName || 'Alex Rivera'})`,
       icon_emoji: ':speech_balloon:',
       text: message,
       attachments: [
         {
           color: '#06b6d4',
-          footer: 'SynapseFlow Assistive Collaboration Bridge • GDG NSUT 2026',
+          footer: 'Dialectica Assistive Collaboration Bridge • GDG NSUT 2026',
           ts: Math.floor(Date.now() / 1000),
           fields: [
             {

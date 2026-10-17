@@ -89,7 +89,7 @@ export default function CalibrationModal({ isOpen, onClose, rawGaze, onCalibrati
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md text-white p-4">
       {stage === 'intro' && (
         <div className="max-w-md w-full bg-neutral-900 border border-neutral-700/80 rounded-2xl p-6 text-center shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-200">
-          <div className="w-14 h-14 mx-auto rounded-full bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-cyan-400">
+          <div className="w-14 h-14 mx-auto rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center text-white">
             <Crosshair className="w-7 h-7" />
           </div>
           <div>
@@ -101,15 +101,15 @@ export default function CalibrationModal({ isOpen, onClose, rawGaze, onCalibrati
 
           <div className="bg-neutral-800/60 border border-neutral-700/50 rounded-xl p-3 text-xs text-neutral-300 text-left space-y-1.5">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
+              <span className="w-2 h-2 rounded-full bg-white"></span>
               <span>Keep your head in a comfortable, steady posture</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
+              <span className="w-2 h-2 rounded-full bg-white"></span>
               <span>Track the pulsating beacon with your eyes only</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
+              <span className="w-2 h-2 rounded-full bg-white"></span>
               <span>Zero special hardware required; stored for future visits</span>
             </div>
           </div>
@@ -126,7 +126,7 @@ export default function CalibrationModal({ isOpen, onClose, rawGaze, onCalibrati
                 setStage('center');
                 setCountdown(3);
               }}
-              className="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold shadow-lg shadow-cyan-500/25 hover:brightness-110 transition text-sm"
+              className="flex-1 py-2.5 px-4 rounded-xl bg-white hover:bg-neutral-200 text-black font-bold shadow-lg transition text-sm"
             >
               Start Calibration
             </button>
@@ -139,7 +139,7 @@ export default function CalibrationModal({ isOpen, onClose, rawGaze, onCalibrati
         <div className="relative w-full h-full flex items-center justify-center pointer-events-none">
           {/* Instructions banner */}
           <div className="absolute top-8 left-1/2 -translate-x-1/2 bg-neutral-900/90 border border-neutral-700 rounded-full px-6 py-2.5 text-center shadow-lg pointer-events-auto">
-            <p className="text-sm font-medium text-cyan-300">
+            <p className="text-sm font-medium text-white">
               Look directly at the glowing beacon: <span className="font-bold uppercase tracking-wider">{stage.replace('_', ' ')}</span>
             </p>
           </div>
@@ -159,19 +159,19 @@ export default function CalibrationModal({ isOpen, onClose, rawGaze, onCalibrati
             }`}
           >
             <div className="relative flex items-center justify-center">
-              <div className="w-20 h-20 rounded-full bg-cyan-500/20 border-2 border-cyan-400 animate-ping absolute"></div>
-              <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-500 shadow-[0_0_30px_rgba(6,182,212,0.8)] flex items-center justify-center text-white font-bold text-lg">
+              <div className="w-20 h-20 rounded-full bg-white/20 border-2 border-white animate-ping absolute"></div>
+              <div className="w-14 h-14 rounded-full bg-white shadow-[0_0_30px_rgba(255,255,255,0.8)] flex items-center justify-center text-black font-bold text-lg">
                 {countdown}
               </div>
             </div>
-            <span className="text-xs text-cyan-200 mt-2 font-mono tracking-widest uppercase">{stage.replace('_', ' ')}</span>
+            <span className="text-xs text-white mt-2 font-mono tracking-widest uppercase">{stage.replace('_', ' ')}</span>
           </div>
         </div>
       )}
 
       {stage === 'complete' && (
-        <div className="max-w-md w-full bg-neutral-900 border border-emerald-500/40 rounded-2xl p-6 text-center shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-200">
-          <div className="w-16 h-16 mx-auto rounded-full bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-400">
+        <div className="max-w-md w-full bg-neutral-900 border border-neutral-700 rounded-2xl p-6 text-center shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-200">
+          <div className="w-16 h-16 mx-auto rounded-full bg-white flex items-center justify-center text-black">
             <CheckCircle2 className="w-8 h-8" />
           </div>
           <div>
@@ -194,7 +194,7 @@ export default function CalibrationModal({ isOpen, onClose, rawGaze, onCalibrati
             </button>
             <button
               onClick={onClose}
-              className="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold shadow-lg shadow-emerald-500/25 hover:brightness-110 transition text-sm"
+              className="flex-1 py-2.5 px-4 rounded-xl bg-white hover:bg-neutral-200 text-black font-bold shadow-lg transition text-sm"
             >
               Done & Launch
             </button>

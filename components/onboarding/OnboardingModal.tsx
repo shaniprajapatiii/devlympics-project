@@ -20,15 +20,15 @@ export default function OnboardingModal({ isOpen, onClose, onStartCalibration }:
         {/* Progress dots */}
         <div className="flex items-center justify-between pb-2 border-b border-neutral-800">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-cyan-400" />
-            <span className="text-xs font-bold text-neutral-200">SynapseFlow Quickstart Guide</span>
+            <Sparkles className="w-4 h-4 text-white" />
+            <span className="text-xs font-bold text-neutral-200">Dialectica Quickstart Guide</span>
           </div>
           <div className="flex items-center gap-1.5">
             {[1, 2, 3].map((s) => (
               <span
                 key={s}
                 className={`w-2 h-2 rounded-full transition-all ${
-                  step === s ? 'bg-cyan-400 w-4' : step > s ? 'bg-cyan-600' : 'bg-neutral-700'
+                  step === s ? 'bg-white w-4' : step > s ? 'bg-neutral-400' : 'bg-neutral-700'
                 }`}
               />
             ))}
@@ -38,11 +38,11 @@ export default function OnboardingModal({ isOpen, onClose, onStartCalibration }:
         {/* Step 1: Welcome & Value Proposition */}
         {step === 1 && (
           <div className="space-y-4 text-center py-2 animate-in fade-in duration-150">
-            <div className="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/25">
+            <div className="w-14 h-14 mx-auto rounded-2xl bg-white flex items-center justify-center text-black shadow-lg">
               <Zap className="w-7 h-7" />
             </div>
             <div>
-              <h3 className="text-lg font-extrabold text-white">Welcome to SynapseFlow</h3>
+              <h3 className="text-lg font-extrabold text-white">Welcome to Dialectica</h3>
               <p className="text-xs text-neutral-400 mt-1.5 leading-relaxed">
                 The bi-directional assistive bridge connecting non-verbal professionals to fast-paced agile engineering teams.
               </p>
@@ -50,22 +50,22 @@ export default function OnboardingModal({ isOpen, onClose, onStartCalibration }:
 
             <div className="bg-neutral-950 border border-neutral-800 rounded-xl p-3 text-left space-y-2 text-xs">
               <div className="flex items-center gap-2 text-neutral-300">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-white shrink-0" />
                 <span>Zero extra hardware ($0) — uses standard laptop webcam</span>
               </div>
               <div className="flex items-center gap-2 text-neutral-300">
-                <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-white shrink-0" />
                 <span>120+ WPM equivalent communication rate (vs 8 WPM keyboards)</span>
               </div>
               <div className="flex items-center gap-2 text-neutral-300">
-                <CheckCircle2 className="w-4 h-4 text-purple-400 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-white shrink-0" />
                 <span>Floor Reservation Beacon prevents conversational interruptions</span>
               </div>
             </div>
 
             <button
               onClick={() => setStep(2)}
-              className="w-full py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 font-semibold text-white text-xs flex items-center justify-center gap-2 transition"
+              className="w-full py-2.5 rounded-xl bg-white hover:bg-neutral-200 font-bold text-black text-xs flex items-center justify-center gap-2 transition"
             >
               <span>Next: How to Control with Your Eyes</span>
               <ArrowRight className="w-4 h-4" />
@@ -83,7 +83,7 @@ export default function OnboardingModal({ isOpen, onClose, onStartCalibration }:
 
             <div className="space-y-2.5 text-xs">
               <div className="bg-neutral-950 border border-neutral-800 p-3 rounded-xl flex items-start gap-3">
-                <div className="w-7 h-7 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center shrink-0 font-bold">
+                <div className="w-7 h-7 rounded-lg bg-neutral-800 border border-neutral-700 text-white flex items-center justify-center shrink-0 font-bold">
                   1
                 </div>
                 <div>
@@ -95,7 +95,7 @@ export default function OnboardingModal({ isOpen, onClose, onStartCalibration }:
               </div>
 
               <div className="bg-neutral-950 border border-neutral-800 p-3 rounded-xl flex items-start gap-3">
-                <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 font-bold">
+                <div className="w-7 h-7 rounded-lg bg-neutral-800 border border-neutral-700 text-white flex items-center justify-center shrink-0 font-bold">
                   2
                 </div>
                 <div>
@@ -107,7 +107,7 @@ export default function OnboardingModal({ isOpen, onClose, onStartCalibration }:
               </div>
 
               <div className="bg-neutral-950 border border-neutral-800 p-3 rounded-xl flex items-start gap-3">
-                <div className="w-7 h-7 rounded-lg bg-red-500/20 text-red-400 flex items-center justify-center shrink-0 font-bold">
+                <div className="w-7 h-7 rounded-lg bg-neutral-800 border border-neutral-700 text-white flex items-center justify-center shrink-0 font-bold">
                   3
                 </div>
                 <div>
@@ -128,7 +128,7 @@ export default function OnboardingModal({ isOpen, onClose, onStartCalibration }:
               </button>
               <button
                 onClick={() => setStep(3)}
-                className="flex-1 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 font-semibold text-white text-xs flex items-center justify-center gap-2 transition"
+                className="flex-1 py-2.5 rounded-xl bg-white hover:bg-neutral-200 font-bold text-black text-xs flex items-center justify-center gap-2 transition"
               >
                 <span>Next: Webcam Calibration</span>
                 <ArrowRight className="w-4 h-4" />
@@ -140,7 +140,7 @@ export default function OnboardingModal({ isOpen, onClose, onStartCalibration }:
         {/* Step 3: Launch & Calibration */}
         {step === 3 && (
           <div className="space-y-4 text-center py-2 animate-in fade-in duration-150">
-            <div className="w-14 h-14 mx-auto rounded-2xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-400 shadow-lg">
+            <div className="w-14 h-14 mx-auto rounded-2xl bg-neutral-800 border border-neutral-700 flex items-center justify-center text-white shadow-lg">
               <Eye className="w-7 h-7" />
             </div>
             <div>
@@ -156,7 +156,7 @@ export default function OnboardingModal({ isOpen, onClose, onStartCalibration }:
                   onClose();
                   onStartCalibration();
                 }}
-                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 font-semibold text-white text-xs shadow-lg shadow-cyan-500/25 hover:brightness-110 transition"
+                className="w-full py-2.5 rounded-xl bg-white hover:bg-neutral-200 font-bold text-black text-xs shadow-lg transition"
               >
                 Start 5-Point Calibration (Recommended)
               </button>

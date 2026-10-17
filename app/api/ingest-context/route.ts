@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
           generationConfig: { responseMimeType: 'application/json' },
         });
 
-        const prompt = `You are SynapseFlow's Technical Context Lens.
+        const prompt = `You are Dialectica's Technical Context Lens.
 Analyze this technical document/code diff and generate exactly 4 hyper-specific gaze response cards for a senior engineer to select using eye gaze during a review or meeting.
 
 Document Type: ${documentType || 'Code Review Diff'}
