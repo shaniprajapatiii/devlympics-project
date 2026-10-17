@@ -17,6 +17,10 @@ import {
   Sparkles,
   CheckCircle2,
   Smile,
+  ChevronDown,
+  ChevronUp,
+  Maximize2,
+  Minimize2,
 } from 'lucide-react';
 
 interface Props {
@@ -54,6 +58,7 @@ export default function EyeTracker({
   const [calibrationModalOpen, setCalibrationModalOpen] = useState(false);
   const [calibrationMatrix, setCalibrationMatrix] = useState<CalibrationMatrix | null>(null);
   const [rawGazeSample, setRawGazeSample] = useState<{ x: number; y: number }>({ x: 0.5, y: 0.5 });
+  const [isCameraExpanded, setIsCameraExpanded] = useState(false);
 
   // Gesture Diagnostics state
   const [gesturesEnabled, setGesturesEnabled] = useState(true);
@@ -164,8 +169,8 @@ export default function EyeTracker({
           startLoop();
         }
       } catch (err: any) {
-        console.error('Vision initialization error:', err);
-        setErrorMessage(err.message || 'Could not access webcam or load vision models.');
+        console.warn('Vision initialization note:', err.message);
+        setErrorMessage(err.message || 'Webcam permission not granted or device offline.');
         setIsLoading(false);
       }
     }
@@ -273,27 +278,31 @@ export default function EyeTracker({
       const w = canvas.width;
       const h = canvas.height;
 
-      // Draw Left Eye Contour (indices: 33, 160, 158, 133, 153, 144)
+      // Draw Left Eye Contour
       const leftEyeIndices = [33, 160, 158, 133, 153, 144, 33];
       ctx.beginPath();
       ctx.strokeStyle = coords.isBlinking ? '#737373' : '#ffffff';
       ctx.lineWidth = 1.5;
       leftEyeIndices.forEach((idx, i) => {
         const pt = landmarks[idx];
-        if (i === 0) ctx.moveTo(pt.x * w, pt.y * h);
-        else ctx.lineTo(pt.x * w, pt.y * h);
+        if (pt) {
+          if (i === 0) ctx.moveTo(pt.x * w, pt.y * h);
+          else ctx.lineTo(pt.x * w, pt.y * h);
+        }
       });
       ctx.stroke();
 
-      // Draw Right Eye Contour (indices: 263, 385, 387, 362, 373, 380)
-      const rightEyeIndices = [263, 385, 387, 362, 373, 380, 263];
+      // Draw Right Eye Contour
+      const rightEyeIndices = [362, 385, 387, 263, 373, 380, 362];
       ctx.beginPath();
       ctx.strokeStyle = coords.isBlinking ? '#737373' : '#ffffff';
       ctx.lineWidth = 1.5;
       rightEyeIndices.forEach((idx, i) => {
         const pt = landmarks[idx];
-        if (i === 0) ctx.moveTo(pt.x * w, pt.y * h);
-        else ctx.lineTo(pt.x * w, pt.y * h);
+        if (pt) {
+          if (i === 0) ctx.moveTo(pt.x * w, pt.y * h);
+          else ctx.lineTo(pt.x * w, pt.y * h);
+        }
       });
       ctx.stroke();
 
@@ -302,13 +311,11 @@ export default function EyeTracker({
       const rightIris = landmarks[473];
 
       if (leftIris && rightIris) {
-        // Left Iris
         ctx.beginPath();
         ctx.arc(leftIris.x * w, leftIris.y * h, 3.5, 0, Math.PI * 2);
         ctx.fillStyle = '#ffffff';
         ctx.fill();
 
-        // Right Iris
         ctx.beginPath();
         ctx.arc(rightIris.x * w, rightIris.y * h, 3.5, 0, Math.PI * 2);
         ctx.fillStyle = '#ffffff';
@@ -341,154 +348,160 @@ export default function EyeTracker({
   );
 
   return (
-    <div className="relative rounded-2xl overflow-hidden bg-neutral-950 border border-neutral-800 shadow-xl group">
-      {/* Video & Canvas Stream */}
-      <div className="relative aspect-video w-full max-w-sm bg-black flex items-center justify-center">
-        <video
-          ref={videoRef}
-          playsInline
-          muted
-          className="w-full h-full object-cover -scale-x-100 opacity-80"
-        />
-        <canvas
-          ref={canvasRef}
-          width={640}
-          height={480}
-          className="absolute inset-0 w-full h-full -scale-x-100 pointer-events-none"
-        />
-
-        {/* Loading Spinner */}
-        {isLoading && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-neutral-900/90 text-white gap-3 p-4 text-center">
-            <div className="w-8 h-8 rounded-full border-2 border-white border-t-transparent animate-spin"></div>
-            <p className="text-xs text-neutral-300 font-medium">
-              Initializing MediaPipe 478-Landmark Vision Engine...
-            </p>
-          </div>
-        )}
-
-        {/* Error Fallback */}
-        {errorMessage && !isLoading && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-neutral-900/95 text-white gap-2 p-4 text-center">
-            <AlertCircle className="w-7 h-7 text-white" />
-            <p className="text-xs text-white font-semibold">Webcam Not Detected</p>
-            <p className="text-[11px] text-neutral-400 max-w-xs">{errorMessage}</p>
+    <div className="rounded-2xl overflow-hidden bg-neutral-950 border border-neutral-800/80 shadow-xl transition-all">
+      {/* Sleek Top Bar with Mode Switchers */}
+      <div className="p-3 bg-neutral-900/90 border-b border-neutral-800 flex flex-wrap items-center justify-between gap-2.5">
+        <div className="flex items-center gap-2">
+          {/* Mode Selector Pill */}
+          <div className="flex items-center gap-1 bg-black/60 border border-neutral-800 rounded-xl p-1 text-xs">
             <button
-              onClick={onToggleMouseSimulation}
-              className="mt-2 py-1.5 px-3 rounded-lg bg-white hover:bg-neutral-200 text-xs font-semibold text-black flex items-center gap-1.5 transition"
-            >
-              <MousePointer className="w-3.5 h-3.5" /> Enable Cursor Simulation Mode
-            </button>
-          </div>
-        )}
-
-        {/* Mouse Simulation Watermark */}
-        {isSimulatingMouse && (
-          <div className="absolute top-2 left-2 bg-neutral-800/90 backdrop-blur-md px-2.5 py-1 rounded-md text-[10px] font-semibold text-white flex items-center gap-1.5 border border-neutral-700">
-            <MousePointer className="w-3 h-3 animate-pulse" /> CURSOR SIMULATION MODE
-          </div>
-        )}
-
-        {/* Live Diagnostics Pills */}
-        <div className="absolute top-2 right-2 flex flex-col gap-1 items-end pointer-events-none">
-          <div className="bg-neutral-900/85 backdrop-blur-md border border-neutral-700/60 rounded px-2 py-0.5 text-[10px] font-mono text-neutral-300 flex items-center gap-1.5">
-            <span
-              className={`w-1.5 h-1.5 rounded-full ${
-                cameraActive ? 'bg-white animate-pulse' : 'bg-neutral-500'
-              }`}
-            ></span>
-            {fps} FPS
-          </div>
-          <div className="bg-neutral-900/85 backdrop-blur-md border border-neutral-700/60 rounded px-2 py-0.5 text-[10px] font-mono text-neutral-300">
-            EAR:{' '}
-            <span className={currentEar < 0.2 ? 'text-white font-bold underline' : 'text-neutral-300'}>
-              {currentEar.toFixed(2)}
-            </span>
-          </div>
-          {gesturesEnabled && cameraActive && (
-            <div className="bg-neutral-900/85 backdrop-blur-md border border-neutral-700/60 rounded px-2 py-0.5 text-[10px] font-mono text-neutral-300 flex items-center gap-1">
-              <span>Pose:</span>
-              <span className="text-white">{gestureDiagnostics.headPitch > 0 ? `+${gestureDiagnostics.headPitch}` : gestureDiagnostics.headPitch}°</span>
-              <span className="text-neutral-500">|</span>
-              <span className="text-neutral-400">Brow: {gestureDiagnostics.browRatio}x</span>
-            </div>
-          )}
-        </div>
-
-        {/* Active Gesture Trigger Toast */}
-        {activeGestureToast && (
-          <div
-            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border px-3.5 py-2 rounded-xl flex items-center gap-2.5 shadow-2xl backdrop-blur-md animate-in fade-in zoom-in-95 duration-150 z-20 ${activeGestureToast.color}`}
-          >
-            <Sparkles className="w-4 h-4 shrink-0 animate-spin" />
-            <div>
-              <p className="text-xs font-bold leading-tight">{activeGestureToast.label}</p>
-              <p className="text-[10px] opacity-80">{activeGestureToast.sublabel}</p>
-            </div>
-          </div>
-        )}
-
-        {/* Prolonged Blink Alert */}
-        {isBlinking && (
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-white text-black text-[11px] font-bold px-3 py-1 rounded-full flex items-center gap-1.5 animate-pulse shadow-lg z-10">
-            <ShieldAlert className="w-3.5 h-3.5" /> Blink Detected
-          </div>
-        )}
-      </div>
-
-      {/* Control Toolbar */}
-      <div className="p-3 bg-neutral-900 border-t border-neutral-800 flex items-center justify-between text-xs">
-        <div className="flex items-center gap-2 text-neutral-300">
-          <Eye className="w-4 h-4 text-white" />
-          <span className="font-medium text-neutral-200">Zero-Hardware Gaze</span>
-          <span
-            className={`text-[10px] px-1.5 py-0.5 rounded border ${
-              calibrationMatrix
-                ? 'bg-neutral-800 text-white border-neutral-700'
-                : 'bg-neutral-950 text-neutral-400 border-neutral-800'
-            }`}
-          >
-            {calibrationMatrix ? 'Calibrated' : 'Auto Default'}
-          </span>
-        </div>
-
-        <div className="flex items-center gap-1.5">
-          {/* Facial Gestures Toggle */}
-          <button
-            onClick={() => setGesturesEnabled(!gesturesEnabled)}
-            title={gesturesEnabled ? 'Facial Gestures Active (Nod/Shake/Brow)' : 'Facial Gestures Paused'}
-            className={`py-1 px-2 rounded-lg border text-[11px] font-semibold transition flex items-center gap-1 ${
-              gesturesEnabled
-                ? 'bg-white text-black border-white'
-                : 'bg-neutral-800 border-neutral-700 text-neutral-400'
-            }`}
-          >
-            <Smile className="w-3 h-3" />
-            <span className="hidden sm:inline">Gestures</span>
-          </button>
-
-          {onToggleMouseSimulation && (
-            <button
-              onClick={onToggleMouseSimulation}
-              title="Toggle Cursor Simulation Mode"
-              className={`p-1.5 rounded-lg border text-xs font-semibold transition flex items-center gap-1 ${
+              type="button"
+              onClick={() => onToggleMouseSimulation && (isSimulatingMouse ? null : onToggleMouseSimulation())}
+              className={`px-3 py-1 rounded-lg font-semibold transition flex items-center gap-1.5 ${
                 isSimulatingMouse
-                  ? 'bg-white text-black border-white'
-                  : 'bg-neutral-800 border-neutral-700 text-neutral-400 hover:text-white'
+                  ? 'bg-white text-black shadow-sm font-bold'
+                  : 'text-neutral-400 hover:text-white'
               }`}
             >
               <MousePointer className="w-3.5 h-3.5" />
+              <span>Cursor Gaze (Smooth Demo)</span>
             </button>
-          )}
+
+            <button
+              type="button"
+              onClick={() => onToggleMouseSimulation && (!isSimulatingMouse ? null : onToggleMouseSimulation())}
+              className={`px-3 py-1 rounded-lg font-semibold transition flex items-center gap-1.5 ${
+                !isSimulatingMouse
+                  ? 'bg-white text-black shadow-sm font-bold'
+                  : 'text-neutral-400 hover:text-white'
+              }`}
+            >
+              <Eye className="w-3.5 h-3.5" />
+              <span>Webcam Iris Mesh (478)</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Right Tools: Expand Camera, Gestures & Calibration */}
+        <div className="flex items-center gap-1.5 text-xs">
+          <button
+            type="button"
+            onClick={() => setGesturesEnabled(!gesturesEnabled)}
+            className={`px-2.5 py-1 rounded-lg border text-xs font-semibold transition flex items-center gap-1.5 ${
+              gesturesEnabled
+                ? 'bg-neutral-800 text-white border-neutral-700'
+                : 'bg-black text-neutral-500 border-neutral-850'
+            }`}
+            title="Toggle nod/shake/brow gestures"
+          >
+            <Smile className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Gestures</span>
+          </button>
 
           <button
+            type="button"
             onClick={() => setCalibrationModalOpen(true)}
-            className="py-1 px-2.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 text-neutral-300 hover:text-white flex items-center gap-1.5 transition text-[11px] font-medium"
+            className="px-2.5 py-1 rounded-lg bg-neutral-800 hover:bg-neutral-750 text-neutral-200 border border-neutral-700 transition flex items-center gap-1.5 font-medium"
           >
-            <Sliders className="w-3 h-3 text-white" /> Calibrate
+            <Sliders className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Calibrate</span>
+          </button>
+
+          {/* Camera Drawer Toggle */}
+          <button
+            type="button"
+            onClick={() => setIsCameraExpanded(!isCameraExpanded)}
+            className="px-2.5 py-1 rounded-lg bg-neutral-800 hover:bg-neutral-750 text-white border border-neutral-700 transition flex items-center gap-1"
+          >
+            <Camera className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">{isCameraExpanded ? 'Hide Feed' : 'View Feed'}</span>
+            {isCameraExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
           </button>
         </div>
       </div>
+
+      {/* Mode 1: Cursor Mode Banner (Clean, Uncluttered, Zero Distraction) */}
+      {isSimulatingMouse && !isCameraExpanded && (
+        <div className="p-3 bg-black/40 border-b border-neutral-850 flex items-center justify-between text-xs text-neutral-300">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>
+              <strong>Cursor Gaze Active:</strong> Move your mouse across the 4 quadrant cards below to dwell and trigger vocal synthesis.
+            </span>
+          </div>
+          <span className="text-[11px] font-mono text-neutral-500 hidden sm:inline">
+            Zero Fatigue Mode
+          </span>
+        </div>
+      )}
+
+      {/* Expandable Camera Video / Canvas Area */}
+      {isCameraExpanded && (
+        <div className="relative aspect-video max-h-56 w-full bg-black flex items-center justify-center overflow-hidden border-b border-neutral-800">
+          <video
+            ref={videoRef}
+            playsInline
+            muted
+            className="w-full h-full object-cover -scale-x-100 opacity-80"
+          />
+          <canvas
+            ref={canvasRef}
+            width={640}
+            height={480}
+            className="absolute inset-0 w-full h-full -scale-x-100 pointer-events-none"
+          />
+
+          {/* Loading Overlay */}
+          {isLoading && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 text-white gap-2 p-4 text-center">
+              <div className="w-6 h-6 rounded-full border-2 border-white border-t-transparent animate-spin" />
+              <p className="text-xs text-neutral-300">
+                Initializing MediaPipe 478-Landmark GPU Landmarker...
+              </p>
+            </div>
+          )}
+
+          {/* Error Notice */}
+          {errorMessage && !isLoading && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-neutral-950/95 text-white gap-2 p-4 text-center">
+              <AlertCircle className="w-6 h-6 text-neutral-300" />
+              <p className="text-xs font-semibold text-white">Webcam Signal Inactive</p>
+              <p className="text-[11px] text-neutral-400 max-w-xs">{errorMessage}</p>
+              <button
+                type="button"
+                onClick={() => onToggleMouseSimulation && !isSimulatingMouse && onToggleMouseSimulation()}
+                className="mt-1 py-1 px-3 rounded-lg bg-white text-black text-xs font-bold hover:bg-neutral-200 transition"
+              >
+                Switch to Cursor Gaze Mode
+              </button>
+            </div>
+          )}
+
+          {/* Telemetry Overlays */}
+          <div className="absolute top-2 right-2 flex flex-col gap-1 items-end pointer-events-none text-[10px] font-mono">
+            <div className="bg-black/70 backdrop-blur-md border border-neutral-800 rounded px-2 py-0.5 text-neutral-300 flex items-center gap-1.5">
+              <span className={`w-1.5 h-1.5 rounded-full ${cameraActive ? 'bg-emerald-400' : 'bg-neutral-500'}`} />
+              {fps} FPS
+            </div>
+            <div className="bg-black/70 backdrop-blur-md border border-neutral-800 rounded px-2 py-0.5 text-neutral-300">
+              EAR: {currentEar.toFixed(2)}
+            </div>
+          </div>
+
+          {/* Active Gesture Trigger Toast */}
+          {activeGestureToast && (
+            <div
+              className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border px-3.5 py-2 rounded-xl flex items-center gap-2.5 shadow-2xl backdrop-blur-md animate-in fade-in zoom-in-95 duration-150 z-20 ${activeGestureToast.color}`}
+            >
+              <Sparkles className="w-4 h-4 shrink-0 animate-spin" />
+              <div>
+                <p className="text-xs font-bold leading-tight">{activeGestureToast.label}</p>
+                <p className="text-[10px] opacity-80">{activeGestureToast.sublabel}</p>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* 5-Point Calibration Modal */}
       <CalibrationModal

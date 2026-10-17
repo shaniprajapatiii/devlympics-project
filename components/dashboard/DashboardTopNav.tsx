@@ -17,6 +17,7 @@ import {
   CheckCircle2,
   Sparkles,
   Zap,
+  MousePointer,
 } from 'lucide-react';
 
 interface DashboardTopNavProps {
@@ -50,99 +51,93 @@ export default function DashboardTopNav({
 }: DashboardTopNavProps) {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
-  const tabMeta: Record<DashboardTab, { title: string; subtitle: string }> = {
+  const tabMeta: Record<DashboardTab, { title: string; subtitle: string; tag: string }> = {
     cockpit: {
-      title: 'Assistive Cockpit',
-      subtitle: 'Iris Gaze Tracking & 4-Quadrant Polar HUD',
-    },
-    simulator: {
-      title: 'Benchmark Simulator',
-      subtitle: 'Feel The Gap AAC Latency & Typing Speed Comparison',
+      title: 'Assistive Meeting Cockpit',
+      subtitle: 'Zero-Hardware Iris Gaze ↔ Google Meet Agile Standup Stage',
+      tag: 'Bridge 1',
     },
     code: {
       title: 'Code Review Bridge',
-      subtitle: 'Assistive Pull Request Review & Intent Dispatch',
+      subtitle: 'Hands-Free GitHub PR Diff Inspection & Technical Sign-off',
+      tag: 'Bridge 2',
+    },
+    translator: {
+      title: 'Opportunity & Spec Translator',
+      subtitle: 'Transform Complex Competition & Fellowship Criteria into Action Plans',
+      tag: 'Bridge 3',
+    },
+    simulator: {
+      title: 'Feel The Gap Benchmark',
+      subtitle: 'Traditional 8-WPM Eye Keyboard vs. 0.82s Dialectica Speedup',
+      tag: 'Bridge 4',
     },
     macros: {
       title: 'Macro Studio',
-      subtitle: 'Dynamic Phrase Wheel Presets & Pack Editor',
+      subtitle: 'Custom Intent Wheels, Agile Standup & Incident Packs',
+      tag: 'Studio',
     },
     identity: {
-      title: 'Voice & Persona',
-      subtitle: 'Acoustic Tone, Cadence & Custom Voice Profile',
+      title: 'Voice & Identity',
+      subtitle: 'Acoustic Tone, Cadence & Custom Voice Profile Persona',
+      tag: 'Persona',
     },
     analytics: {
-      title: 'Telemetry & Analytics',
-      subtitle: 'Real-Time Fixation Precision, WPM & Fatigue Monitoring',
+      title: 'Assistive Telemetry',
+      subtitle: 'Real-Time Fixation Precision, Effective WPM & Fatigue Aborts',
+      tag: 'Metrics',
     },
   };
 
   const currentMeta = tabMeta[activeTab] || tabMeta.cockpit;
 
   return (
-    <header className="sticky top-0 z-30 h-16 border-b border-neutral-800 bg-black/90 backdrop-blur-md px-4 sm:px-6 flex items-center justify-between">
+    <header className="sticky top-0 z-30 h-16 border-b border-neutral-800/80 bg-black/90 backdrop-blur-md px-4 sm:px-6 flex items-center justify-between">
       {/* Left: Mobile Hamburger & Active Breadcrumb */}
       <div className="flex items-center gap-3">
-        {/* Mobile Hamburger Drawer Trigger */}
         <button
           type="button"
           onClick={onOpenMobileMenu}
-          className="lg:hidden p-2 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white hover:bg-neutral-850 transition"
+          className="lg:hidden p-2 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white transition"
           aria-label="Open navigation sidebar"
         >
           <Menu className="w-5 h-5" />
         </button>
 
-        {/* View Breadcrumb / Title */}
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-semibold text-neutral-400 hidden sm:inline">
-              Dialectica /
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-neutral-900 text-neutral-300 border border-neutral-800 font-bold uppercase hidden sm:inline">
+              {currentMeta.tag}
             </span>
             <h1 className="text-sm sm:text-base font-bold text-white tracking-tight">
               {currentMeta.title}
             </h1>
-            <span className="hidden md:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-neutral-900 border border-neutral-800 text-neutral-300">
-              Live Engine
-            </span>
           </div>
-          <p className="text-[11px] text-neutral-400 hidden lg:block truncate max-w-md">
+          <p className="text-[11px] text-neutral-400 hidden lg:block truncate max-w-lg">
             {currentMeta.subtitle}
           </p>
         </div>
       </div>
 
-      {/* Center: System Status Telemetry Pills */}
-      <div className="hidden xl:flex items-center gap-2">
-        {/* Eye Tracking / Mouse Simulation Pill */}
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-neutral-950 border border-neutral-800 text-[11px] font-mono">
+      {/* Center: System Status Telemetry Badges */}
+      <div className="hidden md:flex items-center gap-2">
+        {/* Input Mode */}
+        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-neutral-950 border border-neutral-800 text-xs font-mono">
           <span
             className={`w-2 h-2 rounded-full ${
               isSimulatingMouse ? 'bg-amber-400' : 'bg-emerald-400 animate-pulse'
             }`}
           />
-          <span className="text-neutral-400">
-            {isSimulatingMouse ? 'Mouse Emulation' : 'Iris Mesh 478'}
+          <span className="text-neutral-300 font-medium">
+            {isSimulatingMouse ? 'Cursor Gaze' : 'Iris 478 Mesh'}
           </span>
         </div>
 
-        {/* Quadrant Indicator */}
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-neutral-950 border border-neutral-800 text-[11px] font-mono">
-          <Eye className="w-3 h-3 text-neutral-400" />
-          <span className="text-neutral-300">
-            {activeQuadrant !== null ? (
-              <span className="text-white font-bold">Quadrant #{activeQuadrant}</span>
-            ) : (
-              <span className="text-neutral-400">Neutral</span>
-            )}
-          </span>
-        </div>
-
-        {/* Floor Reservation Indicator */}
+        {/* Floor Reservation */}
         <div
-          className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono border transition ${
+          className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono border transition ${
             isFloorReserved
-              ? 'bg-white text-black font-bold border-white shadow-sm'
+              ? 'bg-white text-black font-bold border-white shadow-md'
               : 'bg-neutral-950 text-neutral-400 border-neutral-800'
           }`}
         >
@@ -150,121 +145,69 @@ export default function DashboardTopNav({
           <span>{isFloorReserved ? 'Floor Reserved' : 'Open Floor'}</span>
         </div>
 
-        {/* Dwell Duration */}
-        <div className="text-[11px] text-neutral-400 font-mono px-2 py-1">
-          Dwell: <strong className="text-neutral-200">{dwellTimeMs}ms</strong>
-        </div>
+        {/* Slack Sync */}
+        {slackEnabled && (
+          <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-neutral-950 border border-neutral-800 text-[11px] font-mono text-neutral-400">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <span>Slack Live</span>
+          </div>
+        )}
       </div>
 
-      {/* Right: Action Buttons & User Menu */}
+      {/* Right: Quick Actions & Profile Dropdown */}
       <div className="flex items-center gap-2">
-        {/* Floating HUD Trigger */}
-        <button
-          type="button"
-          onClick={onOpenFloatingHUD}
-          className="py-1.5 px-3 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-white flex items-center gap-1.5 text-xs font-semibold transition shadow-sm"
-          title="Open Floating HUD window (Picture-in-Picture) to use over Google Meet, Zoom, or VS Code"
-        >
-          <ExternalLink className="w-3.5 h-3.5 text-white" />
-          <span className="hidden sm:inline">Floating HUD</span>
-        </button>
-
-        {/* Caregiver Distress Trigger */}
-        <button
-          type="button"
-          onClick={onOpenCaregiver}
-          className="p-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-neutral-300 hover:text-white transition"
-          title="Caregiver Distress Alert & Ergonomic Rest Pause"
-        >
-          <HeartPulse className="w-4 h-4" />
-        </button>
-
-        {/* Ergonomic & Dwell Settings */}
         <button
           type="button"
           onClick={onOpenSettings}
           className="p-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-neutral-300 hover:text-white transition"
-          title="Ergonomic Dwell & Sensitivity Settings"
+          title="Vision Settings"
         >
           <Sliders className="w-4 h-4" />
         </button>
 
-        {/* User Account Dropdown */}
+        {/* User Avatar Menu */}
         <div className="relative">
           <button
             type="button"
             onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-            className="flex items-center gap-2 p-1.5 sm:px-2.5 sm:py-1 rounded-xl bg-neutral-900 hover:bg-neutral-850 border border-neutral-700 transition"
+            className="flex items-center gap-2 p-1.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 transition"
           >
-            <div className="w-6 h-6 rounded-lg bg-white text-black font-black text-[11px] flex items-center justify-center overflow-hidden">
+            <div className="w-7 h-7 rounded-lg bg-white text-black font-black text-xs flex items-center justify-center overflow-hidden">
               {user?.avatar ? (
                 <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
               ) : (
-                <span>{user?.name?.charAt(0).toUpperCase() || 'U'}</span>
+                <span>{user?.name?.charAt(0).toUpperCase() || 'A'}</span>
               )}
             </div>
-            <div className="text-left hidden sm:block">
-              <div className="text-xs font-bold text-white leading-tight truncate max-w-[110px]">
-                {user?.name || 'Authorized Member'}
-              </div>
-            </div>
-            <ChevronDown className="w-3 h-3 text-neutral-400" />
+            <ChevronDown className="w-3.5 h-3.5 text-neutral-400" />
           </button>
 
-          {/* User Menu Dropdown */}
           {isUserMenuOpen && (
-            <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-neutral-950 border border-neutral-700 shadow-2xl p-2 z-50 text-xs animate-in fade-in zoom-in-95 duration-150">
-              <div className="p-2.5 border-b border-neutral-800 mb-1">
-                <div className="font-bold text-white truncate">{user?.name || 'Authorized User'}</div>
-                <div className="text-[11px] text-neutral-400 truncate mt-0.5">
-                  {user?.email || 'Authenticated Session'}
-                </div>
-                <div className="flex items-center gap-1.5 mt-1.5">
-                  <span className="text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-neutral-300">
-                    {user?.role || 'Engineer / Member'}
-                  </span>
-                  {user?.provider === 'google' && (
-                    <span className="text-[10px] text-neutral-300 flex items-center gap-1 font-medium">
-                      <CheckCircle2 className="w-2.5 h-2.5 text-neutral-300" /> Google
-                    </span>
-                  )}
-                </div>
+            <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-neutral-950 border border-neutral-850 p-2 shadow-2xl z-50 text-xs">
+              <div className="p-2.5 border-b border-neutral-850 mb-1">
+                <div className="font-bold text-white truncate">{user?.name || 'Alex Chen'}</div>
+                <div className="text-[11px] text-neutral-400 truncate">{user?.email || 'alex.chen@enterprise.io'}</div>
               </div>
 
               <Link
                 href="/"
-                onClick={() => setIsUserMenuOpen(false)}
-                className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-neutral-300 hover:text-white hover:bg-neutral-900 transition"
+                className="flex items-center gap-2 px-2.5 py-2 rounded-xl text-neutral-300 hover:text-white hover:bg-neutral-900 transition"
               >
                 <Home className="w-3.5 h-3.5" />
-                <span>Dialectica Landing Page</span>
+                <span>Return to Home</span>
               </Link>
 
               <button
                 type="button"
                 onClick={() => {
                   setIsUserMenuOpen(false);
-                  onOpenSettings();
+                  onSignOut();
                 }}
-                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-neutral-300 hover:text-white hover:bg-neutral-900 transition text-left"
+                className="w-full flex items-center gap-2 px-2.5 py-2 rounded-xl text-neutral-300 hover:text-white hover:bg-neutral-900 transition text-left"
               >
-                <Sliders className="w-3.5 h-3.5" />
-                <span>Vision & Dwell Settings</span>
+                <LogOut className="w-3.5 h-3.5" />
+                <span>Sign Out</span>
               </button>
-
-              <div className="border-t border-neutral-800 mt-1 pt-1">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsUserMenuOpen(false);
-                    onSignOut();
-                  }}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-red-400 hover:text-red-300 hover:bg-red-950/30 transition text-left font-bold"
-                >
-                  <LogOut className="w-3.5 h-3.5" />
-                  <span>Sign Out</span>
-                </button>
-              </div>
             </div>
           )}
         </div>

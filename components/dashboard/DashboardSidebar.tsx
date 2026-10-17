@@ -26,9 +26,18 @@ import {
   ShieldCheck,
   Radio,
   CheckCircle2,
+  BookOpen,
+  Sparkles,
 } from 'lucide-react';
 
-export type DashboardTab = 'cockpit' | 'simulator' | 'code' | 'macros' | 'identity' | 'analytics';
+export type DashboardTab =
+  | 'cockpit'
+  | 'code'
+  | 'translator'
+  | 'simulator'
+  | 'macros'
+  | 'identity'
+  | 'analytics';
 
 interface DashboardSidebarProps {
   activeTab: DashboardTab;
@@ -76,7 +85,8 @@ export default function DashboardSidebar({
   isFloorReserved = false,
   isSimulatingMouse = false,
 }: DashboardSidebarProps) {
-  const primaryNavItems: {
+  // Group 1: The Core Theme Bridges
+  const cognitiveBridges: {
     id: DashboardTab;
     label: string;
     sublabel: string;
@@ -86,44 +96,58 @@ export default function DashboardSidebar({
     {
       id: 'cockpit',
       label: 'Assistive Cockpit',
-      sublabel: 'Iris tracking & 4-quadrant HUD',
+      sublabel: 'Iris Gaze ↔ Agile Meeting Bridge',
       icon: Eye,
       badge: 'LIVE',
     },
     {
-      id: 'simulator',
-      label: 'Benchmark Simulator',
-      sublabel: 'Feel The Gap AAC latency comparison',
-      icon: Gauge,
-      badge: 'Bench',
-    },
-    {
       id: 'code',
       label: 'Code Review Bridge',
-      sublabel: 'GitHub PR synthesis & diff approval',
+      sublabel: 'Hands-free GitHub PR & Architecture',
       icon: GitPullRequest,
-      badge: 'AI Bridge',
+      badge: 'GitHub',
     },
+    {
+      id: 'translator',
+      label: 'Opportunity Translator',
+      sublabel: 'Complex Specs ↔ Actionable Steps',
+      icon: BookOpen,
+      badge: 'Theme',
+    },
+    {
+      id: 'simulator',
+      label: 'Feel The Gap Benchmark',
+      sublabel: '8-WPM Keyboard vs 0.82s Speedup',
+      icon: Gauge,
+      badge: '51.8x',
+    },
+  ];
+
+  // Group 2: Personalization & Analytics
+  const personalTools: {
+    id: DashboardTab;
+    label: string;
+    sublabel: string;
+    icon: React.ComponentType<{ className?: string }>;
+    badge?: string;
+  }[] = [
     {
       id: 'macros',
       label: 'Macro Studio',
-      sublabel: 'Dynamic intent wheels & phrase packs',
+      sublabel: 'Intent packs & custom phrase wheels',
       icon: Layers,
-      badge: 'Presets',
     },
     {
       id: 'identity',
       label: 'Voice & Persona',
-      sublabel: 'Custom TTS pitch, speed & vocal tone',
+      sublabel: 'Neural voice pitch, tone & title',
       icon: User,
-      badge: 'Acoustic',
     },
     {
       id: 'analytics',
-      label: 'Telemetry & Metrics',
-      sublabel: 'Fixation precision, WPM & fatigue aborts',
+      label: 'Clinical Telemetry',
+      sublabel: 'WPM, fatigue aborts & precision',
       icon: BarChart3,
-      badge: 'Real-Time',
     },
   ];
 
@@ -131,57 +155,26 @@ export default function DashboardSidebar({
     {
       id: 'pip',
       label: 'Floating HUD Window',
-      sublabel: 'Always-On-Top PiP for Meet/Zoom',
+      sublabel: 'Picture-in-Picture for Meet/Zoom',
       icon: ExternalLink,
-      badge: 'Pop-Out',
+      badge: 'PiP',
       onClick: onOpenFloatingHUD,
-      isAction: true,
     },
     {
       id: 'slack',
       label: 'Slack Broadcast',
       sublabel: slackEnabled ? `Active: ${slackChannel}` : 'Broadcast disconnected',
       icon: Hash,
-      badge: slackEnabled ? 'Connected' : 'Off',
-      activeColor: slackEnabled ? 'text-white' : 'text-neutral-500',
+      badge: slackEnabled ? 'Sync' : 'Off',
       onClick: onOpenSlack,
-      isAction: true,
-    },
-    {
-      id: 'calibration',
-      label: 'Iris Calibration',
-      sublabel: '9-point gaze landmark matrix',
-      icon: Crosshair,
-      badge: 'Calibrate',
-      onClick: onOpenCalibration,
-      isAction: true,
     },
     {
       id: 'caregiver',
       label: 'Caregiver Safeguard',
-      sublabel: 'Distress pause & ergonomic alerts',
+      sublabel: 'Medical pause & distress alerts',
       icon: HeartPulse,
       badge: 'Safety',
       onClick: onOpenCaregiver,
-      isAction: true,
-    },
-    {
-      id: 'audio',
-      label: 'Virtual Cable Guide',
-      sublabel: 'BlackHole / VB-Cable setup',
-      icon: Volume2,
-      badge: 'Audio',
-      onClick: onOpenAudioGuide,
-      isAction: true,
-    },
-    {
-      id: 'tour',
-      label: 'Tour & Shortcuts',
-      sublabel: 'Interactive quick start guide',
-      icon: HelpCircle,
-      badge: 'Guide',
-      onClick: onOpenOnboarding,
-      isAction: true,
     },
   ];
 
@@ -212,7 +205,7 @@ export default function DashboardSidebar({
 
       {/* Sidebar Container */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-50 flex flex-col bg-neutral-950 border-r border-neutral-800 transition-all duration-300 ease-in-out ${
+        className={`fixed top-0 bottom-0 left-0 z-50 flex flex-col bg-neutral-950 border-r border-neutral-800/80 transition-all duration-300 ease-in-out ${
           isMobileOpen
             ? 'translate-x-0 w-[290px] shadow-2xl'
             : '-translate-x-full lg:translate-x-0'
@@ -235,10 +228,10 @@ export default function DashboardSidebar({
                     Dialectica
                   </span>
                   <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-full bg-neutral-850 text-neutral-300 border border-neutral-700 font-bold uppercase">
-                    v2.4
+                    v2.5
                   </span>
                 </div>
-                <span className="text-[10px] text-neutral-400 truncate">Assistive Engine</span>
+                <span className="text-[10px] text-neutral-400 truncate">Cognitive Bridge</span>
               </div>
             )}
           </Link>
@@ -265,11 +258,11 @@ export default function DashboardSidebar({
 
         {/* Scrollable Navigation Area */}
         <div className="flex-1 overflow-y-auto custom-scrollbar px-3 py-4 space-y-6">
-          {/* Section 1: Assistive Workspaces */}
+          {/* Section 1: The Cognitive Bridges */}
           <div>
             {(!isCollapsed || isMobileOpen) && (
               <div className="px-2 mb-2 text-[10px] font-bold uppercase tracking-wider text-neutral-400 flex items-center justify-between">
-                <span>Workspaces</span>
+                <span>Cognitive Bridges</span>
                 {isFloorReserved && (
                   <span className="text-[9px] text-emerald-400 font-mono animate-pulse flex items-center gap-1 font-semibold">
                     <Radio className="w-2.5 h-2.5" /> Floor Active
@@ -279,7 +272,7 @@ export default function DashboardSidebar({
             )}
 
             <nav className="space-y-1">
-              {primaryNavItems.map((item) => {
+              {cognitiveBridges.map((item) => {
                 const Icon = item.icon;
                 const isActive = activeTab === item.id;
 
@@ -333,11 +326,50 @@ export default function DashboardSidebar({
             </nav>
           </div>
 
-          {/* Section 2: Real-Time Assistive Tools & Integrations */}
+          {/* Section 2: Personalization & Tools */}
           <div>
             {(!isCollapsed || isMobileOpen) && (
               <div className="px-2 mb-2 text-[10px] font-bold uppercase tracking-wider text-neutral-400">
-                Live Tools & Controls
+                Studio & Telemetry
+              </div>
+            )}
+
+            <div className="space-y-1">
+              {personalTools.map((tool) => {
+                const Icon = tool.icon;
+                const isActive = activeTab === tool.id;
+
+                return (
+                  <button
+                    key={tool.id}
+                    type="button"
+                    onClick={() => handleSelectTab(tool.id)}
+                    title={tool.label}
+                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left transition-all duration-150 group ${
+                      isActive
+                        ? 'bg-neutral-800 text-white font-bold border border-neutral-700'
+                        : 'text-neutral-400 hover:text-white hover:bg-neutral-900'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4 flex-shrink-0 text-neutral-400 group-hover:text-white transition-colors" />
+
+                    {(!isCollapsed || isMobileOpen) && (
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs font-semibold truncate">{tool.label}</div>
+                        <div className="text-[10px] text-neutral-500 truncate">{tool.sublabel}</div>
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Section 3: Integrations & Quick Actions */}
+          <div>
+            {(!isCollapsed || isMobileOpen) && (
+              <div className="px-2 mb-2 text-[10px] font-bold uppercase tracking-wider text-neutral-400">
+                Connected Integrations
               </div>
             )}
 
@@ -351,22 +383,14 @@ export default function DashboardSidebar({
                     type="button"
                     onClick={() => handleActionClick(tool.onClick)}
                     title={tool.label}
-                    className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left text-neutral-300 hover:text-white hover:bg-neutral-900 transition group"
+                    className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left text-neutral-400 hover:text-white hover:bg-neutral-900 transition group"
                   >
-                    <Icon className="w-4 h-4 flex-shrink-0 text-neutral-400 group-hover:text-white transition-colors" />
+                    <Icon className="w-4 h-4 flex-shrink-0 text-neutral-500 group-hover:text-white transition-colors" />
 
                     {(!isCollapsed || isMobileOpen) && (
                       <div className="flex-1 min-w-0 flex items-center justify-between">
-                        <div className="truncate">
-                          <div className="text-xs font-semibold truncate group-hover:text-white">
-                            {tool.label}
-                          </div>
-                          <div className="text-[10px] text-neutral-400 truncate">
-                            {tool.sublabel}
-                          </div>
-                        </div>
-
-                        <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-neutral-400 ml-2 flex-shrink-0">
+                        <span className="text-xs font-medium truncate">{tool.label}</span>
+                        <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-neutral-900 border border-neutral-800 text-neutral-400 ml-2">
                           {tool.badge}
                         </span>
                       </div>
@@ -376,51 +400,16 @@ export default function DashboardSidebar({
               })}
             </div>
           </div>
-
-          {/* Section 3: System Links */}
-          <div>
-            {(!isCollapsed || isMobileOpen) && (
-              <div className="px-2 mb-2 text-[10px] font-bold uppercase tracking-wider text-neutral-400">
-                System
-              </div>
-            )}
-
-            <div className="space-y-1">
-              <button
-                type="button"
-                onClick={() => handleActionClick(onOpenSettings)}
-                title="Ergonomic & Vision Settings"
-                className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left text-neutral-300 hover:text-white hover:bg-neutral-900 transition group"
-              >
-                <Sliders className="w-4 h-4 flex-shrink-0 text-neutral-400 group-hover:text-white" />
-                {(!isCollapsed || isMobileOpen) && (
-                  <span className="text-xs font-medium">Vision & Dwell Settings</span>
-                )}
-              </button>
-
-              <Link
-                href="/"
-                title="Return to Home Landing Page"
-                className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left text-neutral-300 hover:text-white hover:bg-neutral-900 transition group"
-              >
-                <Home className="w-4 h-4 flex-shrink-0 text-neutral-400 group-hover:text-white" />
-                {(!isCollapsed || isMobileOpen) && (
-                  <span className="text-xs font-medium">Dialectica Home</span>
-                )}
-              </Link>
-            </div>
-          </div>
         </div>
 
-        {/* Footer: Real User Account Card */}
+        {/* Footer: User Account Status */}
         <div className="p-3 border-t border-neutral-800/80 bg-black/60">
           <div className="flex items-center gap-2.5 p-2 rounded-xl bg-neutral-900/60 border border-neutral-800/80">
-            {/* User Avatar */}
             <div className="w-8 h-8 rounded-lg bg-white text-black font-black text-xs flex items-center justify-center flex-shrink-0 overflow-hidden shadow-inner">
               {user?.avatar ? (
                 <img src={user.avatar} alt={user.name} className="w-full h-full object-cover" />
               ) : (
-                <span>{user?.name?.charAt(0).toUpperCase() || 'U'}</span>
+                <span>{user?.name?.charAt(0).toUpperCase() || 'A'}</span>
               )}
             </div>
 
@@ -428,26 +417,19 @@ export default function DashboardSidebar({
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-1.5">
                   <span className="text-xs font-bold text-white truncate">
-                    {user?.name || 'Authenticated Member'}
+                    {user?.name || 'Alex Chen'}
                   </span>
                   <span
                     className="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0"
-                    title="Online / Session Active"
+                    title="Online"
                   />
                 </div>
                 <div className="text-[10px] text-neutral-400 truncate">
-                  {user?.email || 'Active Session'}
+                  {user?.email || 'alex.chen@enterprise.io'}
                 </div>
-                {user?.provider === 'google' && (
-                  <div className="text-[9px] text-neutral-300 flex items-center gap-1 mt-0.5 font-medium">
-                    <CheckCircle2 className="w-2.5 h-2.5 text-neutral-300" />
-                    <span>Google Verified</span>
-                  </div>
-                )}
               </div>
             )}
 
-            {/* Sign Out Button */}
             <button
               type="button"
               onClick={onSignOut}
